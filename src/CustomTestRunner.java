@@ -8,10 +8,12 @@ public class CustomTestRunner {
 		
 		int passed = 0, failed = 0;
 		
-		Object obj = Class.forName(args[0]).newInstance();
+		Object obj = 
 		
-		for(Method m: Class.forName(args[0]).getMethods()){
-			
+		for(Method m: obj.getMethods()){
+			if(m.isAnnotationPresent(MemoryTest.class)){
+				
+			}
 		}
 		
 		

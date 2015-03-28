@@ -1,7 +1,8 @@
-import org.junit.Before;
+package JUnit.tests.components;
+
 import org.junit.BeforeClass;
 
-import stub.BubbleSortStub;
+import JUnit.tests.components.stub.BubbleSortStub;
 
 
 public class BubbleSortStubTest {

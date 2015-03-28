@@ -1,13 +1,15 @@
+package JUnit.tests.components;
+
 import org.junit.BeforeClass;
 
-import stub.CalculatorStub;
+import JUnit.tests.components.stub.CalculatorStub;
 
 
 public class CalculatorStubTest {
 
 	
 	@BeforeClass
-	@IgnorePassed (num = 5)
+	@IgnorePassed (num = 5, passed = { false })
 	public void setUp(){
 		//instantiate prehand
 		CalculatorStub cal = new CalculatorStub();

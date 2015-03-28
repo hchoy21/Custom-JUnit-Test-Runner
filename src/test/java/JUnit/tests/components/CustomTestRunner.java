@@ -1,3 +1,5 @@
+package JUnit.tests.components;
+
 import java.lang.reflect.Method;
 
 

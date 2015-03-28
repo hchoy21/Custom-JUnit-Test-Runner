@@ -1,4 +1,4 @@
-package stub;
+package JUnit.tests.components.stub;
 
 import java.util.Random;
 

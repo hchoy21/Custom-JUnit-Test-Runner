@@ -1,3 +1,5 @@
+package JUnit.tests.components;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,6 +10,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface MemoryTest {
 	
-	float memory_amount();
+	float max_memory_allowed();
 	
 }

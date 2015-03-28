@@ -9,11 +9,8 @@ public class BubbleSortStubTest {
 
 	BubbleSortStub bubble;
 
-	@BeforeClass
-	@IgnorePassed(num = 5, passed = { false, false, false, false, false})
-	@RandomizedTest
-	public void setUp(){
-		//instantiate prehand
+	
+	public BubbleSortStubTest(){
 		bubble = new BubbleSortStub();
 	}
 

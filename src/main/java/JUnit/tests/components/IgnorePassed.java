@@ -11,7 +11,4 @@ import java.lang.annotation.Target;
 public @interface IgnorePassed {
 	int num();
 	boolean[] passed();
-//	for(int i=0;i<num;i++){
-//		passed[0] = false;
-//	}
 }

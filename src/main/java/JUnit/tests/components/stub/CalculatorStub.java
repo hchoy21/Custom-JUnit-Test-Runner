@@ -8,12 +8,13 @@ public class CalculatorStub {
 	int small;
 	int result;
 	int random;
-	Random rand = new Random();
 	
 	public CalculatorStub(){
 		
 		big = 5;
 		small = 3;
+		random = 0;
+		result = 0;
 		
 	}
 	
@@ -30,7 +31,7 @@ public class CalculatorStub {
 	}
 	
 	public void randomNumber(){
-		random = rand.nextInt();
+		random = 5;
 	}
 	
 	public void printRandomNumber(){

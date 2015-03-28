@@ -1,5 +1,6 @@
 package JUnit.tests.components;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import JUnit.tests.components.stub.CalculatorStub;
@@ -8,36 +9,41 @@ import JUnit.tests.components.stub.CalculatorStub;
 public class CalculatorStubTest {
 
 	CalculatorStub cal;
-	
-	@BeforeClass
-	@IgnorePassed (num = 5, passed = { false })
-	public void setUp(){
-		//instantiate prehand
+
+	public CalculatorStubTest(){
 		cal = new CalculatorStub();
 	}
 	
+	
+	@IgnorePassed (num = 5, passed = { false })
 	@ExpectedCalls (numOfMethodCalls=1)
 	public void testSubtractCalls(){
 		cal.subtract(5, 2);
 	}
 	
+	@IgnorePassed (num = 5, passed = { false })
 	@ExpectedCalls (numOfMethodCalls=2)
 	public void testAddandPrintCalls(){
 		cal.add(3, 4);
 		cal.printResult();
 	}
 	
+	@IgnorePassed (num = 5, passed = { false })
 	@ExpectedCalls (numOfMethodCalls=3)
 	public void testIgnorePassedTests(){
 		
 	}
 	
+	@IgnorePassed (num = 5, passed = { false })
 	@MemoryTest (max_memory_allowed=1000)
 	public void testRandomNumberPass(){
-		cal.randomNumber();
-		cal.printRandomNumber();
+		for(int i = 0; i < 10; i++){
+			cal.randomNumber();
+			cal.printRandomNumber();
+		}
 	}
 	
+	@IgnorePassed (num = 5, passed = { false })
 	@MemoryTest (max_memory_allowed=1)
 	public void testRandomNumberFail(){
 		cal.randomNumber();

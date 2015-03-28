@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface MemoryTest {
 	
-	float max_memory_allowed();
+	long max_memory_allowed();
 	
 }

@@ -3,7 +3,7 @@ package JUnit.tests.components;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import JUnit.tests.components.stub.CalculatorStub;
+import JUnit.tests.components.stub.SampleMethods;
 
 
 public class CustomTestRunner {
@@ -38,7 +38,6 @@ public class CustomTestRunner {
 	static void runMemoryTest(Method m, Object obj){
 		Annotation annotation = m.getAnnotation(MemoryTest.class);
 		MemoryTest memoryTest = (MemoryTest) annotation;
-		
 		
 		try{
 			

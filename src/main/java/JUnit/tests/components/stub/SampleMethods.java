@@ -2,14 +2,14 @@ package JUnit.tests.components.stub;
 
 import java.util.Random;
 
-public class CalculatorStub {
+public class SampleMethods {
 
 	int big;
 	int small;
 	int result;
 	int random;
 	
-	public CalculatorStub(){
+	public SampleMethods(){
 		
 		big = 5;
 		small = 3;

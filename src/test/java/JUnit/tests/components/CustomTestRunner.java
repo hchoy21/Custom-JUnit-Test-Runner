@@ -8,41 +8,25 @@ import JUnit.tests.components.stub.CalculatorStub;
 
 public class CustomTestRunner {
 	
+	static int passed = 0, failed = 0;
+	
 	public static void main(String[] args) throws Exception{
 		
-		
-		int passed = 0, failed = 0;
 		
 		
 		for(Method m : Class.forName("JUnit.tests.components.CalculatorStubTest").getMethods()){
 			
 			Object calObj = Class.forName("JUnit.tests.components.CalculatorStubTest").newInstance();
 			
+			
+			// check each test annotation
 			if(m.isAnnotationPresent(MemoryTest.class)){
-				System.out.println("line 22");
-				Annotation annotation = m.getAnnotation(MemoryTest.class);
-				MemoryTest memoryTest = (MemoryTest) annotation;
 				
+				runMemoryTest(m, calObj);
 				
-				try{
-					Runtime runtime = Runtime.getRuntime();
-					long totalMemory = runtime.totalMemory();
-					m.invoke(calObj);
-					
-					long freeMemory = runtime.freeMemory();
-					
-					long usedMemory = (totalMemory - freeMemory) / 1024;
-					
-					System.out.println("used mem : " + usedMemory);
-					// check memory test annotation against runtime memory
-					// in kb
-					if(memoryTest.max_memory_allowed() > usedMemory){
-						System.out.println("test");
-						passed++;
-					}
-				}catch(Exception e){
-					e.printStackTrace();
-				}
+			}else if(m.isAnnotationPresent(ExpectedCalls.class)){
+				
+				runExpectedCallsTest(m, calObj);
 				
 			}
 		}
@@ -50,5 +34,39 @@ public class CustomTestRunner {
 		System.out.println("passed tests: " + passed);
 		
 	}
+	
+	static void runMemoryTest(Method m, Object obj){
+		Annotation annotation = m.getAnnotation(MemoryTest.class);
+		MemoryTest memoryTest = (MemoryTest) annotation;
+		
+		
+		try{
+			
+			Runtime runtime = Runtime.getRuntime();
+			long totalMemory = runtime.totalMemory();
+			m.invoke(obj);
+			
+			long freeMemory = runtime.freeMemory();
+			long usedMemory = (totalMemory - freeMemory) / 1024;
+			
+			System.out.println("used mem : " + usedMemory);
+			
+			// check test annotation against memory (kilobyte)
+			if(memoryTest.max_memory_allowed() > usedMemory){
+				System.out.println("test");
+				
+				passed++;
+			}
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	static void runExpectedCallsTest(Method m, Object obj){
+		//TODO: Hendrik
+	}
+	
 
 }

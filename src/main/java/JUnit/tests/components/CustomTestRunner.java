@@ -12,21 +12,19 @@ public class CustomTestRunner {
 	
 	public static void main(String[] args) throws Exception{
 		
-		
-		
-		for(Method m : Class.forName("JUnit.tests.components.CalculatorStubTest").getMethods()){
+		for(Method m : Class.forName("JUnit.tests.components.TestCase").getMethods()){
 			
-			Object calObj = Class.forName("JUnit.tests.components.CalculatorStubTest").newInstance();
+			Object obj = Class.forName("JUnit.tests.components.TestCase").newInstance();
 			
 			
 			// check each test annotation
 			if(m.isAnnotationPresent(MemoryTest.class)){
 				
-				runMemoryTest(m, calObj);
+				runMemoryTest(m, obj);
 				
 			}else if(m.isAnnotationPresent(ExpectedCalls.class)){
 				
-				runExpectedCallsTest(m, calObj);
+				runExpectedCallsTest(m, obj);
 				
 			}
 		}
@@ -35,7 +33,8 @@ public class CustomTestRunner {
 		
 	}
 	
-	static void runMemoryTest(Method m, Object obj){
+	//TODO: increment failed
+	public static boolean runMemoryTest(Method m, Object obj){
 		Annotation annotation = m.getAnnotation(MemoryTest.class);
 		MemoryTest memoryTest = (MemoryTest) annotation;
 		
@@ -55,12 +54,15 @@ public class CustomTestRunner {
 				System.out.println("test");
 				
 				passed++;
+				return true;
 			}
 			
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			
 		}
+		return false;
 	}
 	
 	static void runExpectedCallsTest(Method m, Object obj){

@@ -1,7 +1,5 @@
 package JUnit.tests.components;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 
 import JUnit.tests.components.stub.SampleMethods;
 

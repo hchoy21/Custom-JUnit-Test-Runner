@@ -3,8 +3,6 @@ package JUnit.tests.components;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import JUnit.tests.components.stub.SampleMethods;
-
 
 public class CustomTestRunner {
 	
@@ -18,9 +16,9 @@ public class CustomTestRunner {
 			
 			
 			// check each test annotation
-			if(m.isAnnotationPresent(MemoryTest.class)){
+			if(m.isAnnotationPresent(MemoryLimitTest.class)){
 				
-				runMemoryTest(m, obj);
+				runMemoryLimitTest(m, obj);
 				
 			}else if(m.isAnnotationPresent(ExpectedCalls.class)){
 				
@@ -34,9 +32,9 @@ public class CustomTestRunner {
 	}
 	
 	//TODO: default value is false? figure logic
-	public static boolean runMemoryTest(Method m, Object obj){
-		Annotation annotation = m.getAnnotation(MemoryTest.class);
-		MemoryTest memoryTest = (MemoryTest) annotation;
+	public static boolean runMemoryLimitTest(Method m, Object obj){
+		Annotation annotation = m.getAnnotation(MemoryLimitTest.class);
+		MemoryLimitTest memoryTest = (MemoryLimitTest) annotation;
 		
 		try{
 			
@@ -73,9 +71,37 @@ public class CustomTestRunner {
 		
 	}
 	
-	static void runExpectedCallsTest(Method m, Object obj){
+	public static boolean runAmpleMemoryTest(Method m, Object obj){
+		Annotation annotation = m.getAnnotation(AmpleMemory.class);
+		AmpleMemory memoryTest = (AmpleMemory) annotation;
+
+		try{
+			System.out.println(m.invoke(obj));
+			passed++;
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+
+		}
+		catch (OutOfMemoryError E) {
+			failed++;
+			return false;
+			//dont run 
+		}
+		return false;
+	}
+
+	
+	public static void runExpectedCallsTest(Method m, Object obj){
 		//TODO: Hendrik
 	}
 	
+	public static void runignorePassedTest(Method m, Object obj){
+		//TODO: Hendrik
+	}
+	
+	public void Randomize(){
+		
+	}
 
 }

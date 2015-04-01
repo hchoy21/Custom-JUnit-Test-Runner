@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface MemoryTest {
+public @interface MemoryLimitTest {
 	
 	long max_memory_allowed();
 	

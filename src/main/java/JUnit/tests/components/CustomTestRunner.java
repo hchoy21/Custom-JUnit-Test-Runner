@@ -20,9 +20,9 @@ public class CustomTestRunner {
 				
 				runMemoryLimitTest(m, obj);
 				
-			}else if(m.isAnnotationPresent(ExpectedCalls.class)){
+			}else if(m.isAnnotationPresent(AmpleMemory.class)){
 				
-				runExpectedCallsTest(m, obj);
+				runAmpleMemoryTest(m, obj);
 				
 			}
 		}
@@ -88,6 +88,7 @@ public class CustomTestRunner {
 			return false;
 			//dont run 
 		}
+		System.out.println("passed tests: " + passed);
 		return false;
 	}
 

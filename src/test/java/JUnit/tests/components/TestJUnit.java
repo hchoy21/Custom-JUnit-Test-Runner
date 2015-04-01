@@ -77,27 +77,13 @@ public class TestJUnit {
 	
 	@Test (expected=RuntimeException.class)
 	public void IgnorePassedTestFailed(){
-		for(Method m : method){
-			// run tests on marked annotations
-			if(m.isAnnotationPresent(IgnorePassed.class)){
-				
-
-			}
-							
-		}
+	
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void IgnorePassedTestPassed(){
-		for(Method m : method){
-			// run tests on marked annotations
-			if(m.isAnnotationPresent(IgnorePassed.class)){
-				
-
-			}
-							
-		}
+		
 		
 	}
 	
@@ -110,18 +96,17 @@ public class TestJUnit {
 	@Test (expected=RuntimeException.class)
 	public void RandomizePassed(){
 		
-		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void ExpectedCallTestFailed(){
-
+		
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void ExpectedCallTestPassed(){
-
+		
 		
 	}
 	

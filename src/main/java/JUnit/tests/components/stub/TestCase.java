@@ -1,9 +1,10 @@
 package JUnit.tests.components.stub;
 
 
+import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.ExpectedCalls;
 import JUnit.tests.components.IgnorePassed;
-import JUnit.tests.components.MemoryTest;
+import JUnit.tests.components.MemoryLimitTest;
 
 
 public class TestCase {
@@ -35,14 +36,16 @@ public class TestCase {
 	}
 	
 //	@IgnorePassed (num = 5, passed = { false })
-	@MemoryTest (max_memory_allowed=1000)
+	@MemoryLimitTest (max_memory_allowed=1000)
+	@AmpleMemory
 	public void testRandomNumberPass(){
 			sm.randomNumber();
 			sm.printRandomNumber();
 	}
 	
 	@IgnorePassed (num = 5, passed = { false })
-	@MemoryTest (max_memory_allowed=1)
+	@MemoryLimitTest (max_memory_allowed=1)
+	@AmpleMemory
 	public void testRandomNumberFail(){
 		sm.randomNumber();
 		sm.printRandomNumber();

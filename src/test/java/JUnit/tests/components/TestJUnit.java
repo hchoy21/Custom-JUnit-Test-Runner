@@ -77,37 +77,36 @@ public class TestJUnit {
 	
 	@Test (expected=RuntimeException.class)
 	public void IgnorePassedTestFailed(){
-		throw new RuntimeException();
+	
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void IgnorePassedTestPassed(){
-		throw new RuntimeException();
+		
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void RandomizeFailed(){
-		throw new RuntimeException();
+		
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void RandomizePassed(){
-		throw new RuntimeException();
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void ExpectedCallTestFailed(){
-		throw new RuntimeException();
+		
 		
 	}
 	
 	@Test (expected=RuntimeException.class)
 	public void ExpectedCallTestPassed(){
-		throw new RuntimeException();
+		
 		
 	}
 	

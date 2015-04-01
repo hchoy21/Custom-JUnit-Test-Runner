@@ -13,9 +13,9 @@ public class TestJUnit {
 	@Test
 	public void memoryRestrictionLimitTestPass() throws SecurityException, ClassNotFoundException, 
 														InstantiationException, IllegalAccessException{
-		for (Method m : Class.forName("JUnit.tests.components.TestCase").getMethods()) {
+		for (Method m : Class.forName("JUnit.tests.components.stub.TestCase").getMethods()) {
 
-			Object obj = Class.forName("JUnit.tests.components.TestCase")
+			Object obj = Class.forName("JUnit.tests.components.stub.TestCase")
 					.newInstance();
 			
 			Assert.assertEquals(true, CustomTestRunner.runMemoryTest(m, obj));

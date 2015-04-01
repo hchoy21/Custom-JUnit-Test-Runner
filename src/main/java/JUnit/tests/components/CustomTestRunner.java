@@ -12,9 +12,9 @@ public class CustomTestRunner {
 	
 	public static void main(String[] args) throws Exception{
 		
-		for(Method m : Class.forName("JUnit.tests.components.TestCase").getMethods()){
+		for(Method m : Class.forName("JUnit.tests.components.stub.TestCase").getMethods()){
 			
-			Object obj = Class.forName("JUnit.tests.components.TestCase").newInstance();
+			Object obj = Class.forName("JUnit.tests.components.stub.TestCase").newInstance();
 			
 			
 			// check each test annotation

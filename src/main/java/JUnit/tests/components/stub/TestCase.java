@@ -1,7 +1,9 @@
-package JUnit.tests.components;
+package JUnit.tests.components.stub;
 
 
-import JUnit.tests.components.stub.SampleMethods;
+import JUnit.tests.components.ExpectedCalls;
+import JUnit.tests.components.IgnorePassed;
+import JUnit.tests.components.MemoryTest;
 
 
 public class TestCase {

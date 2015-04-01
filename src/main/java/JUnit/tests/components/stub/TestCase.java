@@ -34,13 +34,11 @@ public class TestCase {
 		
 	}
 	
-	@IgnorePassed (num = 5, passed = { false })
+//	@IgnorePassed (num = 5, passed = { false })
 	@MemoryTest (max_memory_allowed=1000)
 	public void testRandomNumberPass(){
-		for(int i = 0; i < 10; i++){
 			sm.randomNumber();
 			sm.printRandomNumber();
-		}
 	}
 	
 	@IgnorePassed (num = 5, passed = { false })

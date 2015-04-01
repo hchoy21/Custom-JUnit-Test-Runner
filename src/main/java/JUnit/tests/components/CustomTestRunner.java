@@ -33,7 +33,7 @@ public class CustomTestRunner {
 		
 	}
 	
-	//TODO: increment failed
+	//TODO: default value is false? figure logic
 	public static boolean runMemoryTest(Method m, Object obj){
 		Annotation annotation = m.getAnnotation(MemoryTest.class);
 		MemoryTest memoryTest = (MemoryTest) annotation;
@@ -50,19 +50,27 @@ public class CustomTestRunner {
 			System.out.println("used mem : " + usedMemory);
 			
 			// check test annotation against memory (kilobyte)
-			if(memoryTest.max_memory_allowed() > usedMemory){
-				System.out.println("test");
-				
+			if(memoryTest.max_memory_allowed() < usedMemory){
+				System.out.println("memory test passed");
 				passed++;
+				
 				return true;
+			}else{
+				System.out.println("memory test failed");
+				failed++;
+				
+				return false;
 			}
 			
 			
 		}catch(Exception e){
+			
 			e.printStackTrace();
 			
 		}
+		
 		return false;
+		
 	}
 	
 	static void runExpectedCallsTest(Method m, Object obj){

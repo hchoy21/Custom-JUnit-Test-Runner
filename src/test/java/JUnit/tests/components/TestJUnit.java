@@ -1,11 +1,8 @@
 package JUnit.tests.components;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Method;
-
-
-
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +26,7 @@ public class TestJUnit {
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(MemoryTest.class)){
 				
-				Assert.assertEquals(false, CustomTestRunner.runMemoryTest(m, ctrObj));
+				assertFalse("There is not enough memory", CustomTestRunner.runMemoryTest(m, ctrObj));
 			}
 							
 		}
@@ -42,7 +39,7 @@ public class TestJUnit {
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(MemoryTest.class)){
 				
-				Assert.assertEquals(true, CustomTestRunner.runMemoryTest(m, ctrObj));
+				assertTrue("There is enough memory", CustomTestRunner.runMemoryTest(m, ctrObj));
 			}
 							
 		}

@@ -62,7 +62,7 @@ public class CustomTestRunner {
 		}
 		
 		System.out.println("passed tests: " + passed);
-		
+		System.out.println("failed tests: " + failed);
 	}
 	
 	//TODO: default value is false? figure logic
@@ -109,16 +109,13 @@ public class CustomTestRunner {
 			m.invoke(obj);
 			passed++;
 			return true;
-		}catch(Exception e){
-			e.printStackTrace();
-
 		}
-		catch (OutOfMemoryError E) {
+		catch (Exception e) {
 			failed++;
+			System.out.println("out of memory");
 			return false;
 			//dont run 
 		}
-		return false;
 	}
 
 	

@@ -29,11 +29,7 @@ public class TestCase {
 		sm.printResult();
 	}
 	
-<<<<<<< HEAD
-	@IgnorePassed (num = 5, passed = { false })
-=======
 	@ExpectedCalls (numOfMethodCalls=3)
->>>>>>> 941283a56f304c6b0560d9cf49462bbdafe44ad2
 	public void testIgnorePassedTests(){
 		
 	}

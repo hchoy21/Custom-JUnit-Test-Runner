@@ -1,21 +1,26 @@
 package JUnit.tests.components;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import JUnit.tests.components.stub.TestCase;
+
 public class TestJUnit {
 	
-	Class<CustomTestRunner>	ctrObj;
+	Class<TestCase>	ctrObj;
 	Method[] method;
 	
 	@Before
 	public void setup(){
-		ctrObj = CustomTestRunner.class;
+		ctrObj = TestCase.class;
 		method = ctrObj.getDeclaredMethods();
 		
 	}
@@ -77,7 +82,6 @@ public class TestJUnit {
 	
 	@Test (expected=RuntimeException.class)
 	public void IgnorePassedTestFailed(){
-	
 		
 	}
 	
@@ -87,26 +91,46 @@ public class TestJUnit {
 		
 	}
 	
-	@Test (expected=RuntimeException.class)
+	@Test 
 	public void RandomizeFailed(){
+//		CustomTestRunner.methodList = null;
+		ArrayList<Method> mList = new ArrayList<Method>(Arrays.asList(method));
 		
+		
+		//empty the list of methods
+		mList.clear();
+		assertFalse("randomize", CustomTestRunner.randomizeMethods(mList));
 		
 	}
 	
-	@Test (expected=RuntimeException.class)
+	@Test
 	public void RandomizePassed(){
-		
+		ArrayList<Method> mList = new ArrayList<Method>(Arrays.asList(method));
+
+		assertTrue("randomize", CustomTestRunner.randomizeMethods(mList));
 	}
 	
-	@Test (expected=RuntimeException.class)
+	@Test 
 	public void ExpectedCallTestFailed(){
 		
-		
+		for(Method m : method){
+			
+			if(m.isAnnotationPresent(ExpectedCalls.class)){
+				
+				assertFalse("Expected Calls", CustomTestRunner.runExpectedCallsTest(m, ctrObj));
+			}
+		}
 	}
 	
-	@Test (expected=RuntimeException.class)
+	@Test
 	public void ExpectedCallTestPassed(){
-		
+		for(Method m : method){
+			
+			if(m.isAnnotationPresent(ExpectedCalls.class)){
+				
+				assertTrue("Expected Calls", CustomTestRunner.runExpectedCallsTest(m, ctrObj));
+			}
+		}
 		
 	}
 	

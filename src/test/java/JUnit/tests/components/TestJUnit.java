@@ -80,16 +80,16 @@ public class TestJUnit {
                
         }
        
-        @Test (expected=RuntimeException.class)
-        public void IgnorePassedTestFailed(){
-               
-        }
-       
-        @Test (expected=RuntimeException.class)
-        public void IgnorePassedTestPassed(){
-               
-               
-        }
+//        @Test (expected=RuntimeException.class)
+//        public void IgnorePassedTestFailed(){
+//               
+//        }
+//       
+//        @Test (expected=RuntimeException.class)
+//        public void IgnorePassedTestPassed(){
+//               
+//               
+//        }
        
         @Test
         public void RandomizeFailed(){

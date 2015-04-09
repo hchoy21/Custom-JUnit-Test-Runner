@@ -5,8 +5,9 @@ import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.ExpectedCalls;
 import JUnit.tests.components.IgnorePassed;
 import JUnit.tests.components.MemoryLimitTest;
+import JUnit.tests.components.Randomize;
 
-
+@Randomize
 public class TestCase {
 
 	SampleMethods sm;

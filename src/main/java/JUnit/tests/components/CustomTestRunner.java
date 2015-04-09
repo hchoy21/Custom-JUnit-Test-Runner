@@ -2,6 +2,11 @@ package JUnit.tests.components;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import JUnit.tests.components.stub.TestCase;
 
 
 public class CustomTestRunner {
@@ -10,7 +15,22 @@ public class CustomTestRunner {
 	
 	public static void main(String[] args) throws Exception{
 		
-		for(Method m : Class.forName("JUnit.tests.components.stub.TestCase").getMethods()){
+		Class<TestCase> testCase = TestCase.class;
+		
+		// get the list of methods from the test case
+		Method[] methods = Class.forName("JUnit.tests.components.stub.TestCase").getMethods();
+		ArrayList<Method> methodList = new ArrayList<Method>(Arrays.asList(methods));
+		
+		
+		// if tester has decided they want to randomize
+		if(testCase.isAnnotationPresent(Randomize.class)){
+			
+			randomizeMethods(methodList);
+		}
+		
+		
+		// process method annotations
+		for(Method m : methodList){
 			
 			Object obj = Class.forName("JUnit.tests.components.stub.TestCase").newInstance();
 			
@@ -124,8 +144,9 @@ public class CustomTestRunner {
 		
 	}
 	
-	public void Randomize(){
-		
+	public static void randomizeMethods(ArrayList<Method> m){
+		Collections.shuffle(m);
+		System.out.println("Methods Randomized");
 	}
 
 }

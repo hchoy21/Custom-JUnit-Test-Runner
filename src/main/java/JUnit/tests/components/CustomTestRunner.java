@@ -25,7 +25,12 @@ public class CustomTestRunner {
 		// if tester has decided they want to randomize
 		if(testCase.isAnnotationPresent(Randomize.class)){
 			
+			
 			randomizeMethods(methodList);
+		}
+		if(testCase.isAnnotationPresent(IgnorePassed.class)){
+			
+			
 		}
 		
 		
@@ -125,28 +130,41 @@ public class CustomTestRunner {
 	}
 
 	
-	public static void runExpectedCallsTest(Method m, Object obj){
+	public static boolean runExpectedCallsTest(Method m, Object obj){
 		Annotation annotation = m.getAnnotation(ExpectedCalls.class);
 		ExpectedCalls expectedCallsTest = (ExpectedCalls) annotation;
 		
 		try{
 			int calls = expectedCallsTest.numOfMethodCalls();
 			
-			for(int i = 0; i < calls; i++){
-				m.invoke(obj);
-			}
+			if(calls > 0){
+				for(int i = 0; i < calls; i++){
+					m.invoke(obj);
+				}
+				return true;
+			}else
+				return false;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	public static void runignorePassedTest(Method m, Object obj){
 		
 	}
 	
-	public static void randomizeMethods(ArrayList<Method> m){
-		Collections.shuffle(m);
-		System.out.println("Methods Randomized");
+	public static boolean randomizeMethods(ArrayList<Method> m){
+		if(!m.isEmpty()){
+			System.out.println("contains items");
+			Collections.shuffle(m);
+			System.out.println("Methods Randomized");
+			return true;
+		}else{
+			System.out.println("empty");
+			return false;
+		}
 	}
 
 }

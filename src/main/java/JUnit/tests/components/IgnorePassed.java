@@ -7,8 +7,7 @@ import java.lang.annotation.Target;
 
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 public @interface IgnorePassed {
-	int num();
-	boolean[] passed();
+	
 }

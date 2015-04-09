@@ -12,6 +12,7 @@ import org.junit.Test;
  
 public class TestJUnit {
        
+	//2s are fails, regular is passed
         Object ctrObj;
         Method[] method;
         Object ctrObj2;
@@ -55,7 +56,7 @@ public class TestJUnit {
         // TODO: JUnit testing on the CustomTestRunner
         @Test
         public void ampleMemoryRunTestFailed(){
-                for(Method m : method){
+                for(Method m : method2){
                         // run tests on marked annotations
                         if(m.isAnnotationPresent(AmpleMemory.class)){
                                
@@ -112,10 +113,9 @@ public class TestJUnit {
         @Test
         public void ExpectedCallTestFailed(){
                
-                for(Method m : method){
+                for(Method m : method2){
                        
                         if(m.isAnnotationPresent(ExpectedCalls.class)){
-                                System.out.println("JUNIT: expected calls failed");
                                 assertFalse("Methods were not called as minimumly set by user", CustomTestRunner.runExpectedCallsTest(m, ctrObj2));
                         }
                 }
@@ -126,7 +126,6 @@ public class TestJUnit {
                 for(Method m : method){
                        
                         if(m.isAnnotationPresent(ExpectedCalls.class)){
-                                System.out.println("JUNIT: expected calls passed");
                                 assertTrue("Expected Calls", CustomTestRunner.runExpectedCallsTest(m, ctrObj));
                         }
                 }

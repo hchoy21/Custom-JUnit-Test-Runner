@@ -13,6 +13,10 @@ import JUnit.tests.components.Randomize;
 @IgnorePassed
 public class TestCasePass {	
 	
+	public TestCasePass(){
+
+	}
+	
 	@ExpectedCalls (numOfMethodCalls=1)
 	public void testSubtractCalls(){
 		int a = 3;

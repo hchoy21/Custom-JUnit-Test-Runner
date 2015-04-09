@@ -8,14 +8,10 @@ import JUnit.tests.components.MemoryLimitTest;
 import JUnit.tests.components.Randomize;
 
 
-//this is the original testcase for the custom test runner
+//this testcase is for junit
 @Randomize
 @IgnorePassed
-public class TestCase {
-
-	public TestCase(){
-
-	}
+public class TestCasePass {	
 	
 	@ExpectedCalls (numOfMethodCalls=1)
 	public void testSubtractCalls(){
@@ -23,14 +19,6 @@ public class TestCase {
 		int b = 5;
 		int total = a-b;
 		System.out.println("this should print 1 times");
-	}
-	
-	@ExpectedCalls (numOfMethodCalls=0)
-	public void testAddandPrintCalls(){
-		int a = 3;
-		int b = 5;
-		int total = a+b;
-		System.out.println("this should print 2 times");
 	}
 	
 	@ExpectedCalls (numOfMethodCalls=3)

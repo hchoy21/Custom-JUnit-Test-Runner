@@ -79,16 +79,12 @@ public class CustomTestRunner {
 			long freeMemory = runtime.freeMemory();
 			long usedMemory = (totalMemory - freeMemory) / 1024;
 			
-			System.out.println("used mem : " + usedMemory);
-			
 			// check test annotation against memory (kilobyte)
 			if(memoryTest.max_memory_allowed() < usedMemory){
-				System.out.println("memory limit test passed");
 				passed++;
 				
 				return true;
 			}else{
-				System.out.println("memory limit test failed");
 				failed++;
 				
 				return false;
@@ -101,7 +97,6 @@ public class CustomTestRunner {
 			
 		}
 		
-		System.out.println("passed tests: " + passed);
 		return false;
 		
 	}
@@ -111,8 +106,7 @@ public class CustomTestRunner {
 		AmpleMemory memoryTest = (AmpleMemory) annotation;
 
 		try{
-			System.out.println(m.invoke(obj));
-			System.out.println("ample memory test passed");
+			m.invoke(obj);
 			passed++;
 			return true;
 		}catch(Exception e){
@@ -120,12 +114,10 @@ public class CustomTestRunner {
 
 		}
 		catch (OutOfMemoryError E) {
-			System.out.println("ample memory test failed");
 			failed++;
 			return false;
 			//dont run 
 		}
-		System.out.println("passed tests: " + passed);
 		return false;
 	}
 
@@ -133,22 +125,28 @@ public class CustomTestRunner {
 	public static boolean runExpectedCallsTest(Method m, Object obj){
 		Annotation annotation = m.getAnnotation(ExpectedCalls.class);
 		ExpectedCalls expectedCallsTest = (ExpectedCalls) annotation;
+		int calls = expectedCallsTest.numOfMethodCalls();
+		int count = 0;
 		
 		try{
-			int calls = expectedCallsTest.numOfMethodCalls();
 			
 			if(calls > 0){
 				for(int i = 0; i < calls; i++){
 					m.invoke(obj);
+					count++;
 				}
+				System.out.println("yes");
 				return true;
 			}else
 				return false;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		return false;
+		System.out.println(count);
+		if(calls == count){
+			return true;
+		}
+		else return false;
 	}
 	
 	public static void runignorePassedTest(Method m, Object obj){

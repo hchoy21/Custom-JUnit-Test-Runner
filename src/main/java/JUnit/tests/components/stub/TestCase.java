@@ -37,15 +37,14 @@ public class TestCase {
 	
 //	@IgnorePassed (num = 5, passed = { false })
 	@MemoryLimitTest (max_memory_allowed=1000)
-	@AmpleMemory
 	public void testRandomNumberPass(){
 			sm.randomNumber();
 			sm.printRandomNumber();
 	}
 	
 	@IgnorePassed (num = 5, passed = { false })
-	@MemoryLimitTest (max_memory_allowed=1)
 	@AmpleMemory
+	@MemoryLimitTest (max_memory_allowed=1)
 	public void testRandomNumberFail(){
 		sm.randomNumber();
 		sm.printRandomNumber();

@@ -8,6 +8,7 @@ public class SampleMethods {
 	int small;
 	int result;
 	int random;
+	Random rand;
 	
 	public SampleMethods(){
 		
@@ -15,6 +16,7 @@ public class SampleMethods {
 		small = 3;
 		random = 0;
 		result = 0;
+		rand = new Random();
 		
 	}
 	
@@ -31,7 +33,7 @@ public class SampleMethods {
 	}
 	
 	public void randomNumber(){
-		random = 5;
+		random = rand.nextInt(10);
 	}
 	
 	public void printRandomNumber(){

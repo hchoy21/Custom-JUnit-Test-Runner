@@ -20,10 +20,19 @@ public class CustomTestRunner {
 				
 				runMemoryLimitTest(m, obj);
 				
-			}else if(m.isAnnotationPresent(AmpleMemory.class)){
+			}
+			if(m.isAnnotationPresent(AmpleMemory.class)){
 				
 				runAmpleMemoryTest(m, obj);
 				
+			}
+			if(m.isAnnotationPresent(ExpectedCalls.class)){
+				
+				runExpectedCallsTest(m, obj);
+				
+			}
+			if(m.isAnnotationPresent(IgnorePassed.class)){
+				runignorePassedTest(m, obj);
 			}
 		}
 		
@@ -49,12 +58,12 @@ public class CustomTestRunner {
 			
 			// check test annotation against memory (kilobyte)
 			if(memoryTest.max_memory_allowed() < usedMemory){
-				System.out.println("memory test passed");
+				System.out.println("memory limit test passed");
 				passed++;
 				
 				return true;
 			}else{
-				System.out.println("memory test failed");
+				System.out.println("memory limit test failed");
 				failed++;
 				
 				return false;
@@ -67,6 +76,7 @@ public class CustomTestRunner {
 			
 		}
 		
+		System.out.println("passed tests: " + passed);
 		return false;
 		
 	}
@@ -77,6 +87,7 @@ public class CustomTestRunner {
 
 		try{
 			System.out.println(m.invoke(obj));
+			System.out.println("ample memory test passed");
 			passed++;
 			return true;
 		}catch(Exception e){
@@ -84,6 +95,7 @@ public class CustomTestRunner {
 
 		}
 		catch (OutOfMemoryError E) {
+			System.out.println("ample memory test failed");
 			failed++;
 			return false;
 			//dont run 
@@ -94,11 +106,22 @@ public class CustomTestRunner {
 
 	
 	public static void runExpectedCallsTest(Method m, Object obj){
-		//TODO: Hendrik
+		Annotation annotation = m.getAnnotation(ExpectedCalls.class);
+		ExpectedCalls expectedCallsTest = (ExpectedCalls) annotation;
+		
+		try{
+			int calls = expectedCallsTest.numOfMethodCalls();
+			
+			for(int i = 0; i < calls; i++){
+				m.invoke(obj);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static void runignorePassedTest(Method m, Object obj){
-		//TODO: Hendrik
+		
 	}
 	
 	public void Randomize(){

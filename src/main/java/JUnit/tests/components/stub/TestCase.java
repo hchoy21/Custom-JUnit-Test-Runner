@@ -30,7 +30,6 @@ public class TestCase {
 	}
 	
 	@IgnorePassed (num = 5, passed = { false })
-	@ExpectedCalls (numOfMethodCalls=3)
 	public void testIgnorePassedTests(){
 		
 	}

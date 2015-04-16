@@ -4,7 +4,7 @@ package JUnit.tests.components.stub;
 import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.ExpectedCalls;
 import JUnit.tests.components.IgnorePassed;
-import JUnit.tests.components.MemoryLimitTest;
+import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.Randomize;
 
 
@@ -38,15 +38,14 @@ public class TestCase {
 		System.out.println("this should print 3 times");
 	}
 
-	@MemoryLimitTest (max_memory_allowed=1000)
+	@CPULimitTest (max_memory_allowed=1000)
 	public void testRandomNumberPass(){
 		int a = 3;
 		int b = 5;
 		int total = a+b;
 	}
 	
-	@AmpleMemory
-	@MemoryLimitTest (max_memory_allowed=1)
+	@CPULimitTest (max_memory_allowed=1)
 	public void testRandomNumberFail(){
 		int a = 3;
 		int b = 5;

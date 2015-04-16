@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface MemoryLimitTest {
+public @interface CPULimitTest {
 	
-	long max_memory_allowed();
+	long limit() default 75;
 	
 }

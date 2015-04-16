@@ -28,21 +28,18 @@ public class CustomTestRunner {
 			
 			randomizeMethods(methodList);
 		}
-<<<<<<< HEAD
 //		if(testCase.isAnnotationPresent(IgnorePassed.class)){
 //
 //			methods = runignorePassedTest(testCase, methodList);
 //		}
 
 
-=======
 		if(testCase.isAnnotationPresent(IgnorePassed.class)){
 			
 			
 		}
 		
 		
->>>>>>> ef748c500ada562cf1343a447f6994e143fe7a14
 		// process method annotations
 		for(Method m : methodList){
 			
@@ -50,9 +47,9 @@ public class CustomTestRunner {
 			
 			
 			// check each test annotation
-			if(m.isAnnotationPresent(MemoryLimitTest.class)){
+			if(m.isAnnotationPresent(CPULimitTest.class)){
 				
-				runMemoryLimitTest(m, obj);
+				runCPULimitTest(m, obj);
 				
 			}
 			if(m.isAnnotationPresent(AmpleMemory.class)){
@@ -75,21 +72,17 @@ public class CustomTestRunner {
 	}
 	
 	//TODO: default value is false? figure logic
-	public static boolean runMemoryLimitTest(Method m, Object obj){
-		Annotation annotation = m.getAnnotation(MemoryLimitTest.class);
-		MemoryLimitTest memoryTest = (MemoryLimitTest) annotation;
+	public static boolean runCPULimitTest(Method m, Object obj){
+		Annotation annotation = m.getAnnotation(CPULimitTest.class);
+		CPULimitTest cputest = (CPULimitTest) annotation;
 		
 		try{
 			
-			Runtime runtime = Runtime.getRuntime();
-			long totalMemory = runtime.totalMemory();
 			m.invoke(obj);
 			
-			long freeMemory = runtime.freeMemory();
-			long usedMemory = (totalMemory - freeMemory) / 1024;
 			
 			// check test annotation against memory (kilobyte)
-			if(memoryTest.max_memory_allowed() < usedMemory){
+			if(cputest.limit() < ){
 				passed++;
 				
 				return true;
@@ -115,7 +108,6 @@ public class CustomTestRunner {
 		AmpleMemory memoryTest = (AmpleMemory) annotation;
 
 		try{
-<<<<<<< HEAD
 			Runtime runtime = Runtime.getRuntime();
 			float totalMemory = runtime.totalMemory()/1000;
 			float freeMemory = runtime.freeMemory()/1000;
@@ -130,11 +122,10 @@ public class CustomTestRunner {
 				failed++;
 				return false;
 			}
-=======
+			
 			m.invoke(obj);
 			passed++;
 			return true;
->>>>>>> ef748c500ada562cf1343a447f6994e143fe7a14
 		}
 		catch (Exception e) {
 			failed++;
@@ -171,7 +162,6 @@ public class CustomTestRunner {
 		}
 		else return false;
 	}
-<<<<<<< HEAD
 
 	/*
 	 * ignores test methods that passed in the last build
@@ -198,13 +188,10 @@ public class CustomTestRunner {
 //		
 //	}
 
-=======
-	
 	public static void runignorePassedTest(Method m, Object obj){
 		
 	}
 	
->>>>>>> ef748c500ada562cf1343a447f6994e143fe7a14
 	public static boolean randomizeMethods(ArrayList<Method> m){
 		if(!m.isEmpty()){
 			System.out.println("contains items");

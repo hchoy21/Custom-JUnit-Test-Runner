@@ -1,6 +1,8 @@
 package JUnit.tests.components;
 
 import java.lang.annotation.Annotation;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,8 +83,27 @@ public class CustomTestRunner {
 			m.invoke(obj);
 			
 			
+			OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
+					.getOperatingSystemMXBean();
+			
+			
+			double load;
+			
+			Thread.sleep(1100);
+			
+			load = ((com.sun.management.OperatingSystemMXBean) mbean)
+					.getProcessCpuLoad();
+			if ((load < 0.0 || load > 1.0) && load != -1.0) {
+				throw new RuntimeException("getProcessCpuLoad() returns "
+						+ load + " which is not in the [0.0,1.0] interval");
+			}
+			
+			System.out.println("cpu load: " + load*100 + "%");
+			
+			
+			
 			// check test annotation against memory (kilobyte)
-			if(cputest.limit() < ){
+			if(cputest.limit() < load){
 				passed++;
 				
 				return true;
@@ -123,9 +144,9 @@ public class CustomTestRunner {
 				return false;
 			}
 			
-			m.invoke(obj);
-			passed++;
-			return true;
+//			m.invoke(obj);
+//			passed++;
+//			return true;
 		}
 		catch (Exception e) {
 			failed++;

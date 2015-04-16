@@ -117,7 +117,6 @@ public class CustomTestRunner {
 			float totalMemory = runtime.totalMemory()/1000;
 			float freeMemory = runtime.freeMemory()/1000;
 			float threshHold = (freeMemory/totalMemory) * 100;
-			System.out.println(freeMemory/totalMemory);
 			if(memoryTest.threshHold()<threshHold){
 				m.invoke(obj);
 				passed++;

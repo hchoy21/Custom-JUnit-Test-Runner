@@ -24,10 +24,10 @@ public class TestCaseFail {
 	}
 	
 	@AmpleMemory (threshHold=100)
-	@CPULimitTest (limit=1)
+	@CPULimitTest (limit=0)
 	public void testRandomNumberFail(){
 		for(int i=0;i<1000;i++){
-			Object[] a = new Object[2000];
+			Object[] a = new Object[200];
 		}
 	}
 	

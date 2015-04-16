@@ -9,8 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface AmpleMemory {
 	
-	float threshHold() default 0;
+	//default is 25 percent if unchanged
+	float threshHold() default 25;
 	
-	//default to this if threshhold is null
-	float defaultThreshHold() default 25;
 }

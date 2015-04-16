@@ -34,10 +34,10 @@ public class CustomTestRunner {
 
 			randomizeMethods(methodList);
 		}
-		if(testCase.isAnnotationPresent(IgnorePassed.class)){
-
-			methods = runignorePassedTest(testCase, methodList);
-		}
+//		if(testCase.isAnnotationPresent(IgnorePassed.class)){
+//
+//			methods = runignorePassedTest(testCase, methodList);
+//		}
 
 
 		// process method annotations
@@ -114,12 +114,7 @@ public class CustomTestRunner {
 			float freeMemory = runtime.freeMemory()/1000;
 			float threshHold = (freeMemory/totalMemory) * 100;
 			System.out.println(freeMemory/totalMemory);
-			if(memoryTest.threshHold()!=0 && memoryTest.threshHold()<threshHold){
-				m.invoke(obj);
-				passed++;
-				return true;
-			}
-			else if(memoryTest.threshHold()==0 && memoryTest.defaultThreshHold()<threshHold){
+			if(memoryTest.threshHold()<threshHold){
 				m.invoke(obj);
 				passed++;
 				return true;
@@ -169,26 +164,26 @@ public class CustomTestRunner {
 	 * ignores test methods that passed in the last build
 	 * stored in a xml file. The xml file will reset if the boolean reset is set to true when the annotation is called.
 	 */
-	public static Method[] runignorePassedTest(Class <?> c, ArrayList<Method> m) throws FileNotFoundException, UnsupportedEncodingException{
-		Annotation annotation = c.getAnnotation(IgnorePassed.class);
-		IgnorePassed ignore = (IgnorePassed) annotation;
-		
-		//creates a file if it does not exist
-		File file = new File("state.xml");
-		if(!file.exists()){
-			PrintWriter writer = new PrintWriter("state.txt", "UTF-8");
-		}
-		
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		if(ignore.reset()==false){
-			
-		}
-		else{
-			PrintWriter writer = new PrintWriter("state.txt", "UTF-8");
-			writer.close();
-		}
-		
-	}
+//	public static Method[] runignorePassedTest(Class <?> c, ArrayList<Method> m) throws FileNotFoundException, UnsupportedEncodingException{
+//		Annotation annotation = c.getAnnotation(IgnorePassed.class);
+//		IgnorePassed ignore = (IgnorePassed) annotation;
+//		
+//		//creates a file if it does not exist
+//		File file = new File("state.xml");
+//		if(!file.exists()){
+//			PrintWriter writer = new PrintWriter("state.txt", "UTF-8");
+//		}
+//		
+//		BufferedReader reader = new BufferedReader(new FileReader(file));
+//		if(ignore.reset()==false){
+//			
+//		}
+//		else{
+//			PrintWriter writer = new PrintWriter("state.txt", "UTF-8");
+//			writer.close();
+//		}
+//		
+//	}
 
 	public static boolean randomizeMethods(ArrayList<Method> m){
 		if(!m.isEmpty()){

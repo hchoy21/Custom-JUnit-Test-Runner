@@ -10,6 +10,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface IgnorePassed {
 	
-	boolean reset() default false;
-	
 }

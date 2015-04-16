@@ -3,13 +3,12 @@ package JUnit.tests.components.stub;
 import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.ExpectedCalls;
-import JUnit.tests.components.IgnorePassed;
 import JUnit.tests.components.Randomize;
 
 
 //this testcase is for the junit
 @Randomize
-@IgnorePassed
+//@IgnorePassed
 public class TestCaseFail {
 
 	public TestCaseFail(){

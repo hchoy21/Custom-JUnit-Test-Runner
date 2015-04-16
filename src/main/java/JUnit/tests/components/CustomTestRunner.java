@@ -35,10 +35,10 @@ public class CustomTestRunner {
 //
 //			methods = runignorePassedTest(testCase, methodList);
 //		}
-
-		if(testCase.isAnnotationPresent(IgnorePassed.class)){
-				
-		}
+//
+//		if(testCase.isAnnotationPresent(IgnorePassed.class)){
+//				
+//		}
 		
 		// process method annotations
 		for(Method m : methodList){
@@ -61,9 +61,6 @@ public class CustomTestRunner {
 				
 				runExpectedCallsTest(m, obj);
 				
-			}
-			if(m.isAnnotationPresent(IgnorePassed.class)){
-				runignorePassedTest(m, obj);
 			}
 		}
 		
@@ -194,10 +191,6 @@ public class CustomTestRunner {
 //		}
 //		
 //	}
-
-	public static void runignorePassedTest(Method m, Object obj){
-		
-	}
 	
 	public static boolean randomizeMethods(ArrayList<Method> m){
 		if(!m.isEmpty()){

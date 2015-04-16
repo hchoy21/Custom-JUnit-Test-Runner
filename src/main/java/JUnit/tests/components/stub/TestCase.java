@@ -4,13 +4,12 @@ package JUnit.tests.components.stub;
 import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.ExpectedCalls;
-import JUnit.tests.components.IgnorePassed;
 import JUnit.tests.components.Randomize;
 
 
 //this is the original testcase for the custom test runner
 @Randomize
-@IgnorePassed
+//@IgnorePassed
 public class TestCase {
 
 	public TestCase(){

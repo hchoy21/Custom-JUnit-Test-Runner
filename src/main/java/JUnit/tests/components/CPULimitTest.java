@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface CPULimitTest {
 	
-	long limit() default 75;
+	double limit() default 75;
 	
 }

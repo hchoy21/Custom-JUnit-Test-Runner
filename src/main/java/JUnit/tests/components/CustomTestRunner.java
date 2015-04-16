@@ -5,10 +5,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-
-import JUnit.tests.components.stub.TestCase;
 
 
 public class CustomTestRunner {
@@ -19,53 +16,53 @@ public class CustomTestRunner {
 	
 	public static void main(String[] args) throws Exception{
 		
-		Class<TestCase> testCase = TestCase.class;
-		
-		// get the list of methods from the test case
-		Method[] methods = Class.forName("JUnit.tests.components.stub.TestCase").getMethods();
-		ArrayList<Method> methodList = new ArrayList<Method>(Arrays.asList(methods));
-		
-		
-		// if tester has decided they want to randomize
-		if(testCase.isAnnotationPresent(Randomize.class)){
-			
-			randomizeMethods(methodList);
-		}
-//		if(testCase.isAnnotationPresent(IgnorePassed.class)){
-//
-//			methods = runignorePassedTest(testCase, methodList);
+//		Class<TestCase> testCase = TestCase.class;
+//		
+//		// get the list of methods from the test case
+//		Method[] methods = Class.forName("JUnit.tests.components.stub.TestCase").getMethods();
+//		ArrayList<Method> methodList = new ArrayList<Method>(Arrays.asList(methods));
+//		
+//		
+//		// if tester has decided they want to randomize
+//		if(testCase.isAnnotationPresent(Randomize.class)){
+//			
+//			randomizeMethods(methodList);
 //		}
-//
-//		if(testCase.isAnnotationPresent(IgnorePassed.class)){
+////		if(testCase.isAnnotationPresent(IgnorePassed.class)){
+////
+////			methods = runignorePassedTest(testCase, methodList);
+////		}
+////
+////		if(testCase.isAnnotationPresent(IgnorePassed.class)){
+////				
+////		}
+//		
+//		// process method annotations
+//		for(Method m : methodList){
+//			
+//			Object obj = Class.forName("JUnit.tests.components.stub.TestCase").newInstance();
+//			
+//			
+//			// check each test annotation
+//			if(m.isAnnotationPresent(CPULimitTest.class)){
 //				
+//				runCPULimitTest(m, obj);
+//				
+//			}
+//			if(m.isAnnotationPresent(AmpleMemory.class)){
+//				
+//				runAmpleMemoryTest(m, obj);
+//				
+//			}
+//			if(m.isAnnotationPresent(ExpectedCalls.class)){
+//				
+//				runExpectedCallsTest(m, obj);
+//				
+//			}
 //		}
-		
-		// process method annotations
-		for(Method m : methodList){
-			
-			Object obj = Class.forName("JUnit.tests.components.stub.TestCase").newInstance();
-			
-			
-			// check each test annotation
-			if(m.isAnnotationPresent(CPULimitTest.class)){
-				
-				runCPULimitTest(m, obj);
-				
-			}
-			if(m.isAnnotationPresent(AmpleMemory.class)){
-				
-				runAmpleMemoryTest(m, obj);
-				
-			}
-			if(m.isAnnotationPresent(ExpectedCalls.class)){
-				
-				runExpectedCallsTest(m, obj);
-				
-			}
-		}
-		
-		System.out.println("passed tests: " + passed);
-		System.out.println("failed tests: " + failed);
+//		
+//		System.out.println("passed tests: " + passed);
+//		System.out.println("failed tests: " + failed);
 	}
 	
 	//TODO: default value is false? figure logic

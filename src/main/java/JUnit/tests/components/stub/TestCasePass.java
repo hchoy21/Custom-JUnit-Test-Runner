@@ -30,7 +30,7 @@ public class TestCasePass {
 		System.out.println("this should print 3 times");
 	}
 
-	@CPULimitTest (max_memory_allowed=1000)
+	@CPULimitTest (limit=1000)
 	public void testRandomNumberPass(){
 		int a = 3;
 		int b = 5;
@@ -38,7 +38,7 @@ public class TestCasePass {
 	}
 	
 	@AmpleMemory
-	@CPULimitTest (max_memory_allowed=1)
+	@CPULimitTest (limit=1)
 	public void testRandomNumberFail(){
 		int a = 3;
 		int b = 5;

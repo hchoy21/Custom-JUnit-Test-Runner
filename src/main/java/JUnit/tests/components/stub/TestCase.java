@@ -22,7 +22,7 @@ public class TestCase {
 		int a = 3;
 		int b = 5;
 		int total = a-b;
-		System.out.println("this should print 1 times");
+//		System.out.println("this should print 1 times");
 	}
 	
 	@ExpectedCalls (numOfMethodCalls=0)
@@ -30,22 +30,22 @@ public class TestCase {
 		int a = 3;
 		int b = 5;
 		int total = a+b;
-		System.out.println("this should print 2 times");
+//		System.out.println("this should print 2 times");
 	}
 	
 	@ExpectedCalls (numOfMethodCalls=3)
 	public void testIgnorePassedTests(){
-		System.out.println("this should print 3 times");
+//		System.out.println("this should print 3 times");
 	}
 
-	@CPULimitTest (max_memory_allowed=1000)
+	@CPULimitTest
 	public void testRandomNumberPass(){
 		int a = 3;
 		int b = 5;
 		int total = a+b;
 	}
 	
-	@CPULimitTest (max_memory_allowed=1)
+	@CPULimitTest (limit=1)
 	public void testRandomNumberFail(){
 		int a = 3;
 		int b = 5;

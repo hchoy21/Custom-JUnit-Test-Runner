@@ -86,7 +86,7 @@ public class CustomTestRunner {
 						+ load + " which is not in the [0.0,1.0] interval");
 			}
 			
-			System.out.println("cpu load: " + load*100 + "%");
+			System.out.println("method: " + m.getName() + "cpu load: " + load*100 + "%");
 	
 			// check test annotation against memory (kilobyte)
 			if(cputest.limit() >= load * 100){

@@ -14,6 +14,8 @@ import JUnit.tests.components.stub.TestCase;
 public class CustomTestRunner {
 	
 	static int passed = 0, failed = 0;
+	static OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
+			.getOperatingSystemMXBean();
 	
 	public static void main(String[] args) throws Exception{
 		
@@ -27,7 +29,6 @@ public class CustomTestRunner {
 		// if tester has decided they want to randomize
 		if(testCase.isAnnotationPresent(Randomize.class)){
 			
-			
 			randomizeMethods(methodList);
 		}
 //		if(testCase.isAnnotationPresent(IgnorePassed.class)){
@@ -35,12 +36,9 @@ public class CustomTestRunner {
 //			methods = runignorePassedTest(testCase, methodList);
 //		}
 
-
 		if(testCase.isAnnotationPresent(IgnorePassed.class)){
-			
-			
+				
 		}
-		
 		
 		// process method annotations
 		for(Method m : methodList){
@@ -77,39 +75,28 @@ public class CustomTestRunner {
 	public static boolean runCPULimitTest(Method m, Object obj){
 		Annotation annotation = m.getAnnotation(CPULimitTest.class);
 		CPULimitTest cputest = (CPULimitTest) annotation;
-		
+		double load;
 		try{
 			
-			m.invoke(obj);
-			
-			
-			OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
-					.getOperatingSystemMXBean();
-			
-			
-			double load;
-			
-			Thread.sleep(1100);
-			
-			load = ((com.sun.management.OperatingSystemMXBean) mbean)
-					.getProcessCpuLoad();
+			do{
+				m.invoke(obj);
+				load = ((com.sun.management.OperatingSystemMXBean) mbean)
+						.getProcessCpuLoad();
+				}while(load==-1);
+		
 			if ((load < 0.0 || load > 1.0) && load != -1.0) {
 				throw new RuntimeException("getProcessCpuLoad() returns "
 						+ load + " which is not in the [0.0,1.0] interval");
 			}
 			
 			System.out.println("cpu load: " + load*100 + "%");
-			
-			
-			
+	
 			// check test annotation against memory (kilobyte)
-			if(cputest.limit() < load){
+			if(cputest.limit() >= load * 100){
 				passed++;
-				
 				return true;
 			}else{
 				failed++;
-				
 				return false;
 			}
 			
@@ -170,7 +157,6 @@ public class CustomTestRunner {
 					m.invoke(obj);
 					count++;
 				}
-				System.out.println("yes");
 				return true;
 			}else
 				return false;

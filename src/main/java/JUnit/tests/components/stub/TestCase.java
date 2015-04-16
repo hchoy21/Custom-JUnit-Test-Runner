@@ -2,9 +2,9 @@ package JUnit.tests.components.stub;
 
 
 import JUnit.tests.components.AmpleMemory;
+import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.ExpectedCalls;
 import JUnit.tests.components.IgnorePassed;
-import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.Randomize;
 
 
@@ -38,6 +38,7 @@ public class TestCase {
 //		System.out.println("this should print 3 times");
 	}
 
+	@AmpleMemory
 	@CPULimitTest
 	public void testRandomNumberPass(){
 		int a = 3;
@@ -45,11 +46,12 @@ public class TestCase {
 		int total = a+b;
 	}
 	
+	@AmpleMemory (threshHold = 100)
 	@CPULimitTest (limit=1)
 	public void testRandomNumberFail(){
-		int a = 3;
-		int b = 5;
-		int total = a+b;
+		for(int i=0;i<1000;i++){
+			Object[] a = new Object[2000];
+		}
 	}
 	
 }

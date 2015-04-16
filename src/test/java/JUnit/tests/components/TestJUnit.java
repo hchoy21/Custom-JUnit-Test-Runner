@@ -27,31 +27,31 @@ public class TestJUnit {
         }
        
        
-//      // TODO: JUnit testing on the CustomTestRunner
-//      @Test
-//      public void memoryRestrictionLimitTestFailed(){
-//              for(Method m : method){
-//                      // run tests on marked annotations
-//                      if(m.isAnnotationPresent(MemoryLimitTest.class)){
-//                              assertFalse("Fails the set memory Limit", CustomTestRunner.runMemoryLimitTest(m, ctrObj));
-//                      }
-//                                                     
-//              }
-//             
-//      }
-//     
-//      @Test
-//      public void memoryRestrictionLimitTestPassed(){
-//              for(Method m : method){
-//                      // run tests on marked annotations
-//                      if(m.isAnnotationPresent(MemoryLimitTest.class)){
-//                             
-//                              assertTrue("Passes the set memory limit", CustomTestRunner.runMemoryLimitTest(m, ctrObj));
-//                      }
-//                                                     
-//              }
-//             
-//      }
+      // TODO: JUnit testing on the CustomTestRunner
+      @Test
+      public void CPULimitTestFailed(){
+              for(Method m : method2){
+                      // run tests on marked annotations
+                      if(m.isAnnotationPresent(CPULimitTest.class)){
+                              assertFalse("Fails the set memory Limit", CustomTestRunner.runCPULimitTest(m, ctrObj2));
+                      }
+                                                     
+              }
+             
+      }
+     
+      @Test
+      public void memoryRestrictionLimitTestPassed(){
+              for(Method m : method){
+                      // run tests on marked annotations
+                      if(m.isAnnotationPresent(CPULimitTest.class)){
+                             
+                              assertTrue("Passes the set memory limit", CustomTestRunner.runCPULimitTest(m, ctrObj));
+                      }
+                                                     
+              }
+             
+      }
        
         // TODO: JUnit testing on the CustomTestRunner
         @Test

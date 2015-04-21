@@ -3,6 +3,7 @@ package JUnit.tests.components;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,8 @@ public class TestJUnit {
 	//2s are fails, regular is passed
 	Object ctrObj;
 	Method[] method;
+	Object ctrObjp;
+	Method[] methodp;
 	Object ctrObj2;
 	Method[] method2;
 
@@ -22,12 +25,14 @@ public class TestJUnit {
 	public void setup() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		ctrObj = Class.forName("JUnit.tests.components.stub.TestCasePass").newInstance();
 		method = Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods();
+		ctrObjp = Class.forName("JUnit.tests.components.stub.TestCasePass").newInstance();
+		methodp = Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods();
 		ctrObj2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").newInstance();
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
 	}
 
 	@Test
-	public void memoryRestrictionLimitTestPassed(){
+	public void memoryRestrictionLimitTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method){
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(CPULimitTest.class)){
@@ -42,7 +47,7 @@ public class TestJUnit {
 
 	// TODO: JUnit testing on the CustomTestRunner
 	@Test
-	public void CPULimitTestFailed(){
+	public void CPULimitTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method2){
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(CPULimitTest.class)){
@@ -55,7 +60,7 @@ public class TestJUnit {
 
 	// TODO: JUnit testing on the CustomTestRunner
 	@Test
-	public void ampleMemoryRunTestFailed(){
+	public void ampleMemoryRunTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method2){
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(AmpleMemory.class)){
@@ -68,7 +73,7 @@ public class TestJUnit {
 	}
 
 	@Test
-	public void ampleMemoryRunTestPassed(){
+	public void ampleMemoryRunTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method){
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(AmpleMemory.class)){
@@ -111,7 +116,7 @@ public class TestJUnit {
 	}
 
 	@Test
-	public void ExpectedCallTestFailed(){
+	public void ExpectedCallTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 
 		for(Method m : method2){
 
@@ -122,7 +127,7 @@ public class TestJUnit {
 	}
 
 	@Test
-	public void ExpectedCallTestPassed(){
+	public void ExpectedCallTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method){
 
 			if(m.isAnnotationPresent(ExpectedCalls.class)){

@@ -36,9 +36,41 @@ public class TestCasePass {
 		int total = a+b;
 	}
 	
+	@CPULimitTest (limit=100)
+	public void testRandomNumberPass1(){
+		int a = 3;
+		int b = 5;
+		int total = a+b;
+	}
+	
+	
 	@AmpleMemory
 	@CPULimitTest 
 	public void testRandomNumberFail(){
+		int a = 3;
+		int b = 5;
+		int total = a+b;
+	}
+	
+	@AmpleMemory
+	@CPULimitTest (limit = 60)
+	public void testRandomNumberFail1(){
+		int a = 3;
+		int b = 5;
+		int total = a+b;
+	}
+	
+	@AmpleMemory (threshHold = 50)
+	@CPULimitTest 
+	public void testRandomNumberFail2(){
+		int a = 3;
+		int b = 5;
+		int total = a+b;
+	}
+	
+	@AmpleMemory (threshHold = 50)
+	@CPULimitTest (limit = 60)
+	public void testRandomNumberFail3(){
 		int a = 3;
 		int b = 5;
 		int total = a+b;

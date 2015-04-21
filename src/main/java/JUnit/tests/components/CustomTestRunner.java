@@ -15,7 +15,7 @@ public class CustomTestRunner {
 	static OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 			.getOperatingSystemMXBean();
 
-	public static void main(String[] args) throws Exception{
+//	public static void main(String[] args) throws Exception{
 
 		//		Class<TestCase> testCase = TestCase.class;
 		//		
@@ -64,7 +64,7 @@ public class CustomTestRunner {
 		//		
 		//		System.out.println("passed tests: " + passed);
 		//		System.out.println("failed tests: " + failed);
-	}
+//	}
 
 	//TODO: default value is false? figure logic
 	public static boolean runCPULimitTest(Method m, Object obj) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
@@ -78,11 +78,6 @@ public class CustomTestRunner {
 			load = ((com.sun.management.OperatingSystemMXBean) mbean)
 					.getProcessCpuLoad();
 		}while(load==-1);
-
-		if ((load < 0.0 || load > 1.0) && load != -1.0) {
-			throw new RuntimeException("getProcessCpuLoad() returns "
-					+ load + " which is not in the [0.0,1.0] interval");
-		}
 
 		System.out.println("method: " + m.getName() + "cpu load: " + load*100 + "%");
 
@@ -132,10 +127,7 @@ public class CustomTestRunner {
 				m.invoke(obj);
 				count++;
 			}
-			if(calls == count){
-				return true;
-			}
-			else return false;
+			return true;
 		}
 		else return false;
 

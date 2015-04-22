@@ -8,10 +8,6 @@ import JUnit.tests.components.ExpectedCalls;
 //this testcase is for the junit
 //@IgnorePassed
 public class TestCaseFail {
-
-	public TestCaseFail(){
-
-	}
 	
 	@ExpectedCalls (numOfMethodCalls=0)
 	public void testAddandPrintCalls(){

@@ -65,6 +65,18 @@ public class TestJUnit {
 
 	@Test
 	public void testCreateResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+<<<<<<< HEAD
+=======
+		
+		File file = obj.createResultsFile();
+		String filename = file.getName();
+		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
+	}
+
+	
+	@Test
+	public void testModifyingStateFile() throws IOException{
+>>>>>>> test create results file test
 
 		File file = obj.createResultsFile();
 		String filename = file.getName();

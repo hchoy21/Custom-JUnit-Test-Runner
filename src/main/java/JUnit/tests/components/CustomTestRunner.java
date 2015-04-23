@@ -96,7 +96,11 @@ public class CustomTestRunner {
 	}
 
 	public File createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> test create results file test
 		File file = new File("Results." + testFile.getName() + ".txt");
 		PrintWriter writerResult;
 		ignoreList = new ArrayList<String>();

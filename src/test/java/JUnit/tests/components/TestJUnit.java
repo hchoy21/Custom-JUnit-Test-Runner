@@ -4,9 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,33 +19,21 @@ public class TestJUnit {
 	Method[] method;
 	Object ctrObj2;
 	Method[] method2;
-<<<<<<< HEAD
+
 	CustomTestRunner obj;
 	CustomTestRunner obj2;
 	CustomTestRunner obj3;
-
-=======
-	CustomTestRunner obj = new CustomTestRunner();
-	CustomTestRunner obj2 = new CustomTestRunner();
-	CustomTestRunner obj3 = new CustomTestRunner();
 	
->>>>>>> parent of f15cacf... improving junit testing v1.4
 	@Before
 	public void setup() throws Exception{
 		ctrObj = Class.forName("JUnit.tests.components.stub.TestCasePass").newInstance();
 		method = Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods();
 		ctrObj2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").newInstance();
-		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
-<<<<<<< HEAD
+		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods()
+				;
 		obj = new CustomTestRunner("JUnit.tests.components.stub.TestCasePass");
 		obj2 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseFail");
 		obj3 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
-
-=======
-		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
-		obj2.initializeRunner("JUnit.tests.components.stub.TestCaseFail");
-		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue");
->>>>>>> parent of f15cacf... improving junit testing v1.4
 	}
 
 	@Test
@@ -55,7 +41,6 @@ public class TestJUnit {
 
 		assertTrue("no ignore annotation is present, should be false", !obj.isIgnorePassedPresent);
 		assertTrue("no ignore annotation is present, ignore method should not run, hence no files", !obj.saveIgnoredPassResults().exists());
-		assertTrue("String class name should not be null", obj.className!=null);
 		assertTrue("classes should not be null", obj.testFile!=null);
 	}
 
@@ -63,56 +48,20 @@ public class TestJUnit {
 	public void testInitializeRunner() throws Exception{
 		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
 		assertTrue("The results file should be created", file.exists());
-		assertTrue("The results file should be created", obj.createResultsFile().exists());
 		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.passed == obj.numberOfTests);
 		assertTrue("The number of failed tests should be equal to 0", obj.failed == 0);
 		assertTrue("This test should not pass with at least one test case failing", obj2.failed != 0);
 		assertTrue("This test should pass with every test case passing", obj.failed == 0);
 	}
-
-	@Test
-	public void testModifyingStateFile() throws IOException{
-
-		assertTrue("file should be modified", obj3.saveIgnoredPassResults().exists());
-	}
-
-	@Test
-	public void testCreateResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
-<<<<<<< HEAD
-=======
-		
-		File file = obj.createResultsFile();
-		String filename = file.getName();
-		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
-	}
-
 	
 	@Test
-	public void testInitializeResultsFile() throws Exception{
-		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
+	public void testInitializeFailCount() throws Exception{
 		assertTrue("This test should pass with every test case passing", obj.failed == 0);
 	}
-	
-	@Test
-	public void testCreateResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
-		
-		File file = obj.createResultsFile();
-		String filename = file.getName();
-		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
-	}
 
-	
 	@Test
 	public void testModifyingStateFile() throws IOException{
-<<<<<<< HEAD
->>>>>>> test create results file test
-
-		File file = obj.createResultsFile();
-		String filename = file.getName();
-		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
-=======
-		assertTrue("file should be modified", obj3.saveIgnoredPassResults());
->>>>>>> parent of f15cacf... improving junit testing v1.4
+		assertTrue("file should be modified", obj3.saveIgnoredPassResults().exists());
 	}
 
 	@Test

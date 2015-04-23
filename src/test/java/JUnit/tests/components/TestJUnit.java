@@ -17,8 +17,6 @@ public class TestJUnit {
 
 	Object ctrObj;
 	Method[] method;
-	Object ctrObjr;
-	Method[] methodr;
 	Object ctrObj2;
 	Method[] method2;
 	CustomTestRunner obj = new CustomTestRunner();
@@ -27,8 +25,6 @@ public class TestJUnit {
 	public void setup() throws Exception{
 		ctrObj = Class.forName("JUnit.tests.components.stub.TestCasePass").newInstance();
 		method = Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods();
-		ctrObjr = Class.forName("JUnit.tests.components.stub.TestCaseRandomize").newInstance();
-		methodr = Class.forName("JUnit.tests.components.stub.TestCaseRandomize").getMethods();
 		ctrObj2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").newInstance();
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
 		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
@@ -47,7 +43,28 @@ public class TestJUnit {
 
 	}
 
-
+	@Test
+	public void testInitializeRunnerResultCreated() throws Exception{
+	
+		File file = new File("State.JUnit.tests.components.stub.TestCasePass.txt");
+		assertTrue("The number of passed objects should be equal to the number of times the test has passed", file.exists());
+	}
+	
+	@Test
+	public void testInitializeRunnerPassedNumber() throws Exception{
+	
+		System.out.println(obj.passed);
+		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.passed == obj.numberOfTests);
+	}
+	
+	@Test
+	public void testInitializeRunnerFailedNumber() throws Exception{
+	
+		System.out.println(obj.passed);
+		System.out.println(Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods().length);
+		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.failed == 0);
+	}
+	
 	// TODO: JUnit testing on the CustomTestRunner
 	@Test
 	public void CPULimitTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
@@ -108,8 +125,8 @@ public class TestJUnit {
 	public void testRandomize(){
 		ArrayList<Method> mList = null;
 		do{
-		mList = CustomTestRunner.randomizeMethods(new ArrayList<Method>(Arrays.asList(methodr)));
-		}while(mList.size()==methodr.length);
+		mList = CustomTestRunner.randomizeMethods(new ArrayList<Method>(Arrays.asList(method)));
+		}while(mList.size()==method.length);
 	}
 	
 	//does not test null but empty arraylist, since randomize cannot be used separately.

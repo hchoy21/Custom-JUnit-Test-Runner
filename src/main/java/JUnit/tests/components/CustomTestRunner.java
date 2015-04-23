@@ -30,7 +30,7 @@ public class CustomTestRunner {
 	final OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 	.getOperatingSystemMXBean();
 	ArrayList<Method> methodList;
-	int passed = 0, failed = 0;
+	int passed = 0, failed = 0, numberOfTests = 0;
 
 	public CustomTestRunner(){	}
 	
@@ -65,18 +65,21 @@ public class CustomTestRunner {
 				testMethods.put(m.getName() + " CPULimitTest", test);
 				if(isIgnorePassedPresent)
 					ignoreList.add(m);
+				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(AmpleMemory.class)){
 				test = runAmpleMemoryTest(m, obj);
 				testMethods.put(m.getName() + " AmpleMemoryTest", test);
 				if(isIgnorePassedPresent)
 					ignoreList.add(m);
+				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
 				test = runExpectedCallsTest(m, obj);
 				testMethods.put(m.getName() + "ExpectedCallsTest", test);
 				if(isIgnorePassedPresent)
 					ignoreList.add(m);
+				numberOfTests++;
 			}
 		}
 

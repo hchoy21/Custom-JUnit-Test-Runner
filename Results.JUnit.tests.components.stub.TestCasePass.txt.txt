@@ -1,0 +1,24 @@
+TEST RESULTS FOR JUnit.tests.components.stub.TestCasePass
+
+
+--------------------------------------------------------
+
+	testRandomNumberFail AmpleMemoryTest = passed.
+
+	testIgnorePassedTestsExpectedCallsTest = passed.
+
+	testSubtractCallsExpectedCallsTest = passed.
+
+	testRandomNumberFail2 AmpleMemoryTest = passed.
+
+	testRandomNumberPass1 CPULimitTest = passed.
+
+	testRandomNumberFail1 CPULimitTest = passed.
+
+	testRandomNumberPass CPULimitTest = passed.
+
+
+		 tests passed: 7
+		 tests failed: 0
+
+--------------------------------------------------------

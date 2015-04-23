@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import JUnit.tests.components.stub.TestCasePass;
-
 
 public class CustomTestRunner {
 
@@ -40,17 +38,20 @@ public class CustomTestRunner {
 	boolean isIgnorePassedPresent;
 	int passed = 0, failed = 0, numberOfTests = 0;
 
-	public CustomTestRunner(){	}
+	public CustomTestRunner(String className) throws Exception{
+		testFile = Class.forName(className);
+		initializeRunner();
+	}
 
-	public boolean initializeRunner(String className) throws Exception{
+	public boolean initializeRunner() throws Exception{
 
-		testFile = TestCasePass.class;
 		isIgnorePassedPresent = false;
 
 		// get the list of methods from the test case
-		methods = Class.forName(className).getMethods();
+		methods = testFile.getMethods();
 		methodList = new ArrayList<Method>(Arrays.asList(methods));
-
+		ignoreList = new ArrayList<String>();
+		
 		// if tester has decided they want to randomize
 		if(testFile.isAnnotationPresent(Randomize.class))
 			methodList = randomizeMethods(methodList);
@@ -64,22 +65,25 @@ public class CustomTestRunner {
 		// process method annotations
 		for(Method m : methodList){
 
-			Object obj = Class.forName(className).newInstance();
+			Object obj = testFile.newInstance();
 			boolean test;
 			// check each test annotation
 			if(m.isAnnotationPresent(CPULimitTest.class)){
 				test = runCPULimitTest(m, obj);
 				testMethods.put(m.getName() + " CPULimitTest", test);
+				ignoreList.add(m.getName());
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(AmpleMemory.class)){
 				test = runAmpleMemoryTest(m, obj);
 				testMethods.put(m.getName() + " AmpleMemoryTest", test);
+				ignoreList.add(m.getName());
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
 				test = runExpectedCallsTest(m, obj);
 				testMethods.put(m.getName() + "ExpectedCallsTest", test);
+				ignoreList.add(m.getName());
 				numberOfTests++;
 			}
 		}	
@@ -89,30 +93,14 @@ public class CustomTestRunner {
 		if(isIgnorePassedPresent){
 			saveIgnoredPassResults();
 		}
-
+		
 		if(failed == 0)
 			return true;
 		else return false;
 	}
 
-<<<<<<< HEAD
-	public File createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
-<<<<<<< HEAD
-
-=======
-		
-<<<<<<< HEAD
->>>>>>> test create results file test
-=======
->>>>>>> upstream/master
-		File file = new File("Results." + testFile.getName() + ".txt");
-		PrintWriter writerResult;
-		ignoreList = new ArrayList<String>();
-=======
 	private void createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
 		PrintWriter writerResult;
-
->>>>>>> parent of f15cacf... improving junit testing v1.4
 		//creates a new test result file, or overwrites it if it exists
 		writerResult = new PrintWriter("Results." + testFile.getName() + ".txt", "UTF-8");
 
@@ -123,7 +111,6 @@ public class CustomTestRunner {
 			Entry<String, Boolean> pair = it.next();
 			if((Boolean) pair.getValue()){
 				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
-				ignoreList.add(pair.getKey());
 			}
 			else{
 				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
@@ -134,11 +121,6 @@ public class CustomTestRunner {
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();
 		writerResult.close();
-<<<<<<< HEAD
-
-		return file;
-=======
->>>>>>> parent of f15cacf... improving junit testing v1.4
 	}
 
 	public File saveIgnoredPassResults() throws IOException{
@@ -146,7 +128,7 @@ public class CustomTestRunner {
 		if(isIgnorePassedPresent){
 			//creates a file if it does not exist
 			//creates a new state file for ignorepassed if it is used
-			if(!file.exists() || ignore.reset()){
+			if(ignore.reset()){
 				PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
 				writerState.close();
 			}
@@ -173,7 +155,7 @@ public class CustomTestRunner {
 		}while(load==-1);
 
 		// check test annotation against memory (kilobyte)
-		if(cputest.limit() >= load * 100){
+		if(cputest.limit() > load * 100){
 			passed++;
 			return true;
 		}else{
@@ -210,23 +192,18 @@ public class CustomTestRunner {
 		Annotation annotation = m.getAnnotation(ExpectedCalls.class);
 		ExpectedCalls expectedCallsTest = (ExpectedCalls) annotation;
 		int calls = expectedCallsTest.numOfMethodCalls();
-		int count = -1;
-
 
 		if(calls > 0){
-			count = 0;
 			for(int i = 0; i < calls; i++){
 				m.invoke(obj);
-				count++;
 			}
-		}
-		if(calls != count){
-			failed++;
-			return false;
-		}
-		else{
 			passed++;
 			return true;
+		}
+		else{
+			failed++;
+			m.invoke(obj);		//invoke at least once before failing
+			return false;
 		}
 	}
 

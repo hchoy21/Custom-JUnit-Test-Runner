@@ -5,6 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
+/**
+ * 
+ * @author Hendrik Choy, Nathan Nguyen
+ * @param float threshold
+ * @notes Test JVM memory exceeds a certain threshold (percentage). Default threshold = 25%
+ *
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface AmpleMemory {

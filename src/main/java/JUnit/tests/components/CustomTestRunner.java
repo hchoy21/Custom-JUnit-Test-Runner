@@ -155,7 +155,7 @@ public class CustomTestRunner {
 		}while(load==-1);
 
 		// check test annotation against memory (kilobyte)
-		if(cputest.limit() >= load * 100){
+		if(cputest.limit() > load * 100){
 			passed++;
 			return true;
 		}else{

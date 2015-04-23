@@ -30,7 +30,7 @@ public class CustomTestRunner {
 	final OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 	.getOperatingSystemMXBean();
 	ArrayList<Method> methodList;
-	ArrayList<Method> ignoreList;
+	ArrayList<String> ignoreList;
 	Method[] methods;
 	Class<?> testFile;
 	Annotation annotation;
@@ -50,7 +50,7 @@ public class CustomTestRunner {
 		// get the list of methods from the test case
 		methods = testFile.getMethods();
 		methodList = new ArrayList<Method>(Arrays.asList(methods));
-		ignoreList = new ArrayList<Method>();
+		ignoreList = new ArrayList<String>();
 		
 		// if tester has decided they want to randomize
 		if(testFile.isAnnotationPresent(Randomize.class))
@@ -71,19 +71,19 @@ public class CustomTestRunner {
 			if(m.isAnnotationPresent(CPULimitTest.class)){
 				test = runCPULimitTest(m, obj);
 				testMethods.put(m.getName() + " CPULimitTest", test);
-				ignoreList.add(m);
+				ignoreList.add(m.getName());
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(AmpleMemory.class)){
 				test = runAmpleMemoryTest(m, obj);
 				testMethods.put(m.getName() + " AmpleMemoryTest", test);
-				ignoreList.add(m);
+				ignoreList.add(m.getName());
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
 				test = runExpectedCallsTest(m, obj);
 				testMethods.put(m.getName() + "ExpectedCallsTest", test);
-				ignoreList.add(m);
+				ignoreList.add(m.getName());
 				numberOfTests++;
 			}
 		}	
@@ -93,7 +93,7 @@ public class CustomTestRunner {
 		if(isIgnorePassedPresent){
 			saveIgnoredPassResults();
 		}
-
+		
 		if(failed == 0)
 			return true;
 		else return false;
@@ -192,23 +192,18 @@ public class CustomTestRunner {
 		Annotation annotation = m.getAnnotation(ExpectedCalls.class);
 		ExpectedCalls expectedCallsTest = (ExpectedCalls) annotation;
 		int calls = expectedCallsTest.numOfMethodCalls();
-		int count = -1;
-
 
 		if(calls > 0){
-			count = 0;
 			for(int i = 0; i < calls; i++){
 				m.invoke(obj);
-				count++;
 			}
-		}
-		if(calls != count){
-			failed++;
-			return false;
-		}
-		else{
 			passed++;
 			return true;
+		}
+		else{
+			failed++;
+			m.invoke(obj);		//invoke at least once before failing
+			return false;
 		}
 	}
 

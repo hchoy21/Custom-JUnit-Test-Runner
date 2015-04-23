@@ -117,7 +117,7 @@ public class TestJUnit {
 
 	@Test
 	public void IgnorePassedTestResetTrue() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IOException{
-		obj.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseFail"), new ArrayList<Method>());
+		obj3.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseFail"), new ArrayList<Method>());
 		File file = new File("State."+ Class.forName("JUnit.tests.components.stub.TestCaseFail").getName() + ".txt");
 		assertTrue("Reset true should create a new file on the testcaseignorepassed stub", file.exists());
 	}
@@ -125,7 +125,7 @@ public class TestJUnit {
 	@Test
 	public void IgnorePassedTestResetFalse() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IOException{
 		Class<?> c = Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
-		ArrayList<Method> methods = obj.runIgnorePassedTest(c, new ArrayList<Method>(Arrays.asList(c.getMethods())));
+		ArrayList<Method> methods = obj3.runIgnorePassedTest(c, new ArrayList<Method>(Arrays.asList(c.getMethods())));
 		assertTrue("Reset false should return the same method list as previous without using randomize", 
 				Arrays.asList(c.getMethods()).equals(methods));
 	}

@@ -4,7 +4,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class TestJUnit {
 	CustomTestRunner obj;
 	CustomTestRunner obj2;
 	CustomTestRunner obj3;
-	
+
 	@Before
 	public void setup() throws Exception{
 		ctrObj = Class.forName("JUnit.tests.components.stub.TestCasePass").newInstance();
@@ -32,7 +34,7 @@ public class TestJUnit {
 		obj = new CustomTestRunner("JUnit.tests.components.stub.TestCasePass");
 		obj2 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseFail");
 		obj3 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
-		
+
 	}
 
 	@Test
@@ -43,51 +45,32 @@ public class TestJUnit {
 		assertTrue("String class name should not be null", obj.className!=null);
 		assertTrue("classes should not be null", obj.testFile!=null);
 	}
-	
+
 	@Test
-	public void testInitializeRunnerResultCreated() throws Exception{
-	
+	public void testInitializeRunner() throws Exception{
 		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
 		assertTrue("The results file should be created", file.exists());
-	}
-	
-	@Test
-	public void testInitializeRunnerResultReturn() throws Exception{
 		assertTrue("The results file should be created", obj.createResultsFile().exists());
-	}
-	
-	
-	
-	@Test
-	public void testInitializeRunnerPassedNumber() throws Exception{
-
 		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.passed == obj.numberOfTests);
-	}
-	
-	@Test
-	public void testInitializeRunnerFailedNumber() throws Exception{
-
 		assertTrue("The number of failed tests should be equal to 0", obj.failed == 0);
-	}
-	
-	@Test
-	public void testInitializeRunnerFail() throws Exception{
-
 		assertTrue("This test should not pass with at least one test case failing", obj2.failed != 0);
-	}
-
-	@Test
-	public void testInitializeRunnerPass() throws Exception{
-
 		assertTrue("This test should pass with every test case passing", obj.failed == 0);
 	}
-	
+
 	@Test
 	public void testModifyingStateFile() throws IOException{
 
 		assertTrue("file should be modified", obj3.saveIgnoredPassResults().exists());
 	}
-	
+
+	@Test
+	public void testCreateResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+
+		File file = obj.createResultsFile();
+		String filename = file.getName();
+		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
+	}
+
 	@Test
 	public void CPURestrictionLimitTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method){
@@ -100,7 +83,7 @@ public class TestJUnit {
 		}
 
 	}
-	
+
 	@Test
 	public void CPULimitTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method2){
@@ -138,7 +121,7 @@ public class TestJUnit {
 		}
 
 	}
-	
+
 	@Test
 	public void IgnorePassedTestResetTrue() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IOException{
 		obj.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue"), new ArrayList<Method>());
@@ -153,36 +136,36 @@ public class TestJUnit {
 		assertTrue("Reset false should return the same method list as previous without using randomize", 
 				Arrays.asList(c.getMethods()).equals(methods));
 	}
-	
+
 	@Test
 	public void IgnorePassedTestReturnEmptyList() throws Exception{
 		CustomTestRunner test = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
 		ArrayList<Method> methods = test.runIgnorePassedTest(test.testFile, new ArrayList<Method>());
 		assertTrue("Empty list ", methods.isEmpty());
 	}
-	
+
 	@Test
 	public void IgnorePassedTestReturnFailedList() throws Exception{
 		CustomTestRunner test = new CustomTestRunner("JUnit.tests.components.stub.TestCaseFail");
 		ArrayList<Method> methods = test.runIgnorePassedTest(test.testFile, new ArrayList<Method>());
 		assertTrue("Reset true should create a new file on the testcaseignorepassed stub", methods.isEmpty());
 	}
-	
+
 	//tests if randomize actually work, the number of methods after randomizing a subset should be different.
 	@Test (timeout = 1000)
 	public void testRandomize(){
 		ArrayList<Method> mList = null;
 		do{
-		mList = obj.randomizeMethods(new ArrayList<Method>(Arrays.asList(method)));
+			mList = obj.randomizeMethods(new ArrayList<Method>(Arrays.asList(method)));
 		}while(mList.size()==method.length);
 	}
-	
+
 	@Test
 	public void testRandomizeReturn(){
 		assertTrue("randomize should return an arraylist not empty",
 				!obj.randomizeMethods(new ArrayList<Method>(Arrays.asList(method))).isEmpty());
 	}
-	
+
 	//does not test null but empty arraylist, since randomize cannot be used separately.
 	@Test
 	public void testRandomizeEmptyMethodList(){

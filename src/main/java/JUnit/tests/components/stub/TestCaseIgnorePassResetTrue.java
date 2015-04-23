@@ -1,22 +1,14 @@
 package JUnit.tests.components.stub;
 
-
 import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.ExpectedCalls;
+import JUnit.tests.components.IgnorePassed;
 
 
 //this testcase is for junit
-public class TestCasePass {	
-
-	@ExpectedCalls (numOfMethodCalls=1)
-	public void testSubtractCalls(){
-		int a = 3;
-		int b = 5;
-		int total = a-b;
-
-	}
-	
+@IgnorePassed (reset = true)
+public class TestCaseIgnorePassResetTrue {	
 	@ExpectedCalls (numOfMethodCalls=3)
 	public void testIgnorePassedTests(){
 
@@ -43,19 +35,4 @@ public class TestCasePass {
 		int b = 5;
 		int total = a+b;
 	}
-	
-	@CPULimitTest (limit = 60)
-	public void testRandomNumberFail1(){
-		int a = 3;
-		int b = 5;
-		int total = a+b;
-	}
-	
-	@AmpleMemory (threshHold = 50)
-	public void testRandomNumberFail2(){
-		int a = 3;
-		int b = 5;
-		int total = a+b;
-	}
-	
 }

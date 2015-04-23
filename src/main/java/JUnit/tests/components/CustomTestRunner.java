@@ -229,7 +229,7 @@ public class CustomTestRunner {
 	 * ignores test methods that passed in the last build
 	 * stored in a xml file. The xml file will reset if the boolean reset is set to true when the annotation is called.
 	 */
-	public static ArrayList<Method> runIgnorePassedTest(Class <?> c, ArrayList<Method> m) throws IOException, NoSuchMethodException, SecurityException{
+	public ArrayList<Method> runIgnorePassedTest(Class <?> c, ArrayList<Method> m) throws IOException, NoSuchMethodException, SecurityException{
 
 		//creates a file if it does not exist
 		File file = new File("State." + c.getName() + ".txt");
@@ -244,7 +244,6 @@ public class CustomTestRunner {
 		while((methodName = reader.readLine())!= null){
 			if(m.contains(c.getMethod(methodName))){
 				m.remove(c.getMethod(methodName));
-
 			}
 		}
 		reader.close();
@@ -254,7 +253,7 @@ public class CustomTestRunner {
 	}
 
 	public ArrayList<Method> randomizeMethods(ArrayList<Method> m){
-		if(m != null && !m.isEmpty()){
+		if(!m.isEmpty()){
 			Random r = new Random();
 			int subset = r.nextInt(m.size());
 			Collections.shuffle(m);

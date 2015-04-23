@@ -139,7 +139,7 @@ public class TestJUnit {
 	
 	@Test
 	public void IgnorePassedTestResetTrue() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IOException{
-		CustomTestRunner.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue"), new ArrayList<Method>());
+		obj.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue"), new ArrayList<Method>());
 		File file = new File("State."+ Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue").getName() + ".txt");
 		assertTrue("Reset true should create a new file on the testcaseignorepassed stub", file.exists());
 	}
@@ -147,9 +147,16 @@ public class TestJUnit {
 	@Test
 	public void IgnorePassedTestResetFalse() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IOException{
 		Class<?> c = Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
-		ArrayList<Method> methods = CustomTestRunner.runIgnorePassedTest(c, new ArrayList<Method>(Arrays.asList(c.getMethods())));
+		ArrayList<Method> methods = obj.runIgnorePassedTest(c, new ArrayList<Method>(Arrays.asList(c.getMethods())));
 		assertTrue("Reset false should return the same method list as previous without using randomize", 
 				Arrays.asList(c.getMethods()).equals(methods));
+	}
+	
+	@Test
+	public void IgnorePassedTestReturnEmptyList() throws Exception{
+		CustomTestRunner test = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
+		ArrayList<Method> methods = test.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse"), new ArrayList<Method>());
+		assertTrue("Reset true should create a new file on the testcaseignorepassed stub", methods.isEmpty());
 	}
 	
 	//tests if randomize actually work, the number of methods after randomizing a subset should be different.
@@ -172,12 +179,6 @@ public class TestJUnit {
 	public void testRandomizeEmptyMethodList(){
 		ArrayList<Method> mList = obj3.randomizeMethods(new ArrayList<Method>());
 		assertTrue("Returns null if there are no methods in method list", mList == null);
-	}
-	
-	@Test
-	public void testRandomizeNullMethodList(){
-		ArrayList<Method> mList = obj3.randomizeMethods(new ArrayList<Method>());
-		assertTrue("Returns null if arraylist is null", mList == null);
 	}
 
 	@Test

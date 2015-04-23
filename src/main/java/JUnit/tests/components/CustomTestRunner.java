@@ -101,7 +101,10 @@ public class CustomTestRunner {
 
 =======
 		
+<<<<<<< HEAD
 >>>>>>> test create results file test
+=======
+>>>>>>> upstream/master
 		File file = new File("Results." + testFile.getName() + ".txt");
 		PrintWriter writerResult;
 		ignoreList = new ArrayList<String>();

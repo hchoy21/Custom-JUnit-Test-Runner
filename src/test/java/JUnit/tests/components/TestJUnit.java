@@ -21,6 +21,7 @@ public class TestJUnit {
 	Method[] method2;
 	CustomTestRunner obj = new CustomTestRunner();
 	CustomTestRunner obj2 = new CustomTestRunner();
+	CustomTestRunner obj3 = new CustomTestRunner();
 	
 	@Before
 	public void setup() throws Exception{
@@ -30,6 +31,7 @@ public class TestJUnit {
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
 		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
 		obj2.initializeRunner("JUnit.tests.components.stub.TestCaseFail");
+		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
 	}
 
 	@Test
@@ -51,7 +53,18 @@ public class TestJUnit {
 		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.failed == 0);
 	}
 	
+	@Test
+	public void testInitializeRunnerFail() throws Exception{
 
+		assertTrue("This test should not pass with at least one test case failing", obj2.failed != 0);
+	}
+
+	@Test
+	public void testInitializeRunnerPass() throws Exception{
+
+		assertTrue("This test should pass with every test case passing", obj.failed == 0);
+	}
+	
 	@Test
 	public void CPURestrictionLimitTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method){

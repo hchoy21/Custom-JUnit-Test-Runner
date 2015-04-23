@@ -30,14 +30,18 @@ public class CustomTestRunner {
 	final OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 	.getOperatingSystemMXBean();
 	ArrayList<Method> methodList;
+	Class<?> testFile;
+	Annotation annotation;
+	IgnorePassed ignore = null;
+	boolean isIgnorePassedPresent = false;
 	int passed = 0, failed = 0, numberOfTests = 0;
 
 	public CustomTestRunner(){	}
-	
-	public void initializeRunner(String className) throws Exception{
-		
-		Class<?> testFile = TestCasePass.class;
-		boolean isIgnorePassedPresent = false;
+
+	public boolean initializeRunner(String className) throws Exception{
+
+		testFile = TestCasePass.class;
+		isIgnorePassedPresent = false;
 
 		// get the list of methods from the test case
 		Method[] methods = Class.forName(className).getMethods();
@@ -47,12 +51,14 @@ public class CustomTestRunner {
 
 		// if tester has decided they want to randomize
 		if(testFile.isAnnotationPresent(Randomize.class))
-			randomizeMethods(methodList);
+			methodList = randomizeMethods(methodList);
 
 		if(testFile.isAnnotationPresent(IgnorePassed.class)){
 			isIgnorePassedPresent = true;
 			methodList = runIgnorePassedTest(testFile, methodList);
 			ignoreList = new ArrayList<Method>();
+			annotation = testFile.getAnnotation(IgnorePassed.class);
+			ignore = (IgnorePassed) annotation;
 		}
 		// process method annotations
 		for(Method m : methodList){
@@ -91,14 +97,17 @@ public class CustomTestRunner {
 			writerState.close();
 		}
 		//creates a new state file for ignorepassed if it is used
+		if(ignore != null && ignore.reset()){
+			PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
+			writer.close();
+		}
 		if(isIgnorePassedPresent){
 			bufWriterState = new BufferedWriter(new FileWriter(file, true));
 			for(int i=0; i<ignoreList.size(); i++)
 				bufWriterState.write(ignoreList.get(i).getName() + "\n");
 			bufWriterState.flush();
 			bufWriterState.close();
-		}
-
+		}			
 		PrintWriter writerResult;
 
 		//creates a new test result file, or overwrites it if it exists
@@ -121,6 +130,9 @@ public class CustomTestRunner {
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();
 		writerResult.close();
+		if(failed == 0)
+			return true;
+		else return false;
 	}
 
 	@SuppressWarnings("restriction")
@@ -199,8 +211,6 @@ public class CustomTestRunner {
 	 * stored in a xml file. The xml file will reset if the boolean reset is set to true when the annotation is called.
 	 */
 	public static ArrayList<Method> runIgnorePassedTest(Class <?> c, ArrayList<Method> m) throws IOException, NoSuchMethodException, SecurityException{
-		Annotation annotation = c.getAnnotation(IgnorePassed.class);
-		IgnorePassed ignore = (IgnorePassed) annotation;
 
 		//creates a file if it does not exist
 		File file = new File("State." + c.getName() + ".txt");
@@ -210,21 +220,16 @@ public class CustomTestRunner {
 		}
 
 		//if tester does not want to reset, read from file
-		if(ignore.reset()==false){
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String methodName;
-			while((methodName = reader.readLine())!= null){
-				if(m.contains(c.getMethod(methodName))){
-					m.remove(c.getMethod(methodName));
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		String methodName;
+		while((methodName = reader.readLine())!= null){
+			if(m.contains(c.getMethod(methodName))){
+				m.remove(c.getMethod(methodName));
 
-				}
 			}
-			reader.close();
 		}
-		else{
-			PrintWriter writer = new PrintWriter("State." + c.getName() + ".txt", "UTF-8");
-			writer.close();
-		}
+		reader.close();
+
 		return m;
 
 	}

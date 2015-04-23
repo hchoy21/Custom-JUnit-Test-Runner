@@ -50,6 +50,13 @@ public class TestJUnit {
 	}
 	
 	@Test
+	public void testInitializeRunnerResultReturn() throws Exception{
+		assertTrue("The results file should be created", obj.createResultsFile().exists());
+	}
+	
+	
+	
+	@Test
 	public void testInitializeRunnerPassedNumber() throws Exception{
 
 		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.passed == obj.numberOfTests);
@@ -150,20 +157,26 @@ public class TestJUnit {
 	public void testRandomize(){
 		ArrayList<Method> mList = null;
 		do{
-		mList = CustomTestRunner.randomizeMethods(new ArrayList<Method>(Arrays.asList(method)));
+		mList = obj.randomizeMethods(new ArrayList<Method>(Arrays.asList(method)));
 		}while(mList.size()==method.length);
+	}
+	
+	@Test
+	public void testRandomizeReturn(){
+		assertTrue("randomize should return an arraylist not empty",
+				!obj.randomizeMethods(new ArrayList<Method>(Arrays.asList(method))).isEmpty());
 	}
 	
 	//does not test null but empty arraylist, since randomize cannot be used separately.
 	@Test
 	public void testRandomizeEmptyMethodList(){
-		ArrayList<Method> mList = CustomTestRunner.randomizeMethods(new ArrayList<Method>());
+		ArrayList<Method> mList = obj3.randomizeMethods(new ArrayList<Method>());
 		assertTrue("Returns null if there are no methods in method list", mList == null);
 	}
 	
 	@Test
 	public void testRandomizeNullMethodList(){
-		ArrayList<Method> mList = CustomTestRunner.randomizeMethods(new ArrayList<Method>());
+		ArrayList<Method> mList = obj3.randomizeMethods(new ArrayList<Method>());
 		assertTrue("Returns null if arraylist is null", mList == null);
 	}
 

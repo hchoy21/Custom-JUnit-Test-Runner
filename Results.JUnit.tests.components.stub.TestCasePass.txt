@@ -3,6 +3,7 @@ TEST RESULTS FOR JUnit.tests.components.stub.TestCasePass
 
 --------------------------------------------------------
 
+<<<<<<< HEAD
 	testIgnorePassedTestsExpectedCallsTest = passed.
 
 	testRandomNumberFail AmpleMemoryTest = passed.
@@ -19,6 +20,18 @@ TEST RESULTS FOR JUnit.tests.components.stub.TestCasePass
 
 
 		 tests passed: 7
+=======
+	testRandomNumberFail AmpleMemoryTest = passed.
+
+	testIgnorePassedTestsExpectedCallsTest = passed.
+
+	testRandomNumberPass1 CPULimitTest = passed.
+
+	testRandomNumberPass CPULimitTest = passed.
+
+
+		 tests passed: 4
+>>>>>>> parent of f15cacf... improving junit testing v1.4
 		 tests failed: 0
 
 --------------------------------------------------------

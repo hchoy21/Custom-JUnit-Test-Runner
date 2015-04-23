@@ -21,20 +21,33 @@ public class TestJUnit {
 	Method[] method;
 	Object ctrObj2;
 	Method[] method2;
+<<<<<<< HEAD
 	CustomTestRunner obj;
 	CustomTestRunner obj2;
 	CustomTestRunner obj3;
 
+=======
+	CustomTestRunner obj = new CustomTestRunner();
+	CustomTestRunner obj2 = new CustomTestRunner();
+	CustomTestRunner obj3 = new CustomTestRunner();
+	
+>>>>>>> parent of f15cacf... improving junit testing v1.4
 	@Before
 	public void setup() throws Exception{
 		ctrObj = Class.forName("JUnit.tests.components.stub.TestCasePass").newInstance();
 		method = Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods();
 		ctrObj2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").newInstance();
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
+<<<<<<< HEAD
 		obj = new CustomTestRunner("JUnit.tests.components.stub.TestCasePass");
 		obj2 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseFail");
 		obj3 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
 
+=======
+		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
+		obj2.initializeRunner("JUnit.tests.components.stub.TestCaseFail");
+		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue");
+>>>>>>> parent of f15cacf... improving junit testing v1.4
 	}
 
 	@Test
@@ -75,12 +88,22 @@ public class TestJUnit {
 
 	
 	@Test
+	public void testInitializeResultsFile() throws Exception{
+		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
+		assertTrue("This test should pass with every test case passing", obj.failed == 0);
+	}
+	
+	@Test
 	public void testModifyingStateFile() throws IOException{
+<<<<<<< HEAD
 >>>>>>> test create results file test
 
 		File file = obj.createResultsFile();
 		String filename = file.getName();
 		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
+=======
+		assertTrue("file should be modified", obj3.saveIgnoredPassResults());
+>>>>>>> parent of f15cacf... improving junit testing v1.4
 	}
 
 	@Test

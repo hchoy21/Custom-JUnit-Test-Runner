@@ -181,6 +181,7 @@ public class TestJUnit {
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
 				assertFalse("Methods were not called as minimumly set by user", obj2.runExpectedCallsTest(m, ctrObj2));
 			}
+			
 		}
 	}
 

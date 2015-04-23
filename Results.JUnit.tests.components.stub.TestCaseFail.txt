@@ -3,14 +3,12 @@ TEST RESULTS FOR JUnit.tests.components.stub.TestCaseFail
 
 --------------------------------------------------------
 
-	testAddandPrintCallsExpectedCallsTest = failed.
-
 	testRandomNumberFail AmpleMemoryTest = failed.
 
 	testRandomNumberFail CPULimitTest = failed.
 
 
 		 tests passed: 0
-		 tests failed: 3
+		 tests failed: 2
 
 --------------------------------------------------------

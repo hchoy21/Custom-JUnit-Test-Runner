@@ -66,6 +66,12 @@ public class TestJUnit {
 	}
 	
 	@Test
+	public void testInitializeResultsFile() throws Exception{
+		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
+		assertTrue("This test should pass with every test case passing", obj.failed == 0);
+	}
+	
+	@Test
 	public void CPURestrictionLimitTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method){
 			// run tests on marked annotations

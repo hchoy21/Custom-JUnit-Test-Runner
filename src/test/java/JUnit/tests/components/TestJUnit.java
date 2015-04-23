@@ -19,9 +19,9 @@ public class TestJUnit {
 	Method[] method;
 	Object ctrObj2;
 	Method[] method2;
-	CustomTestRunner obj = new CustomTestRunner();
-	CustomTestRunner obj2 = new CustomTestRunner();
-	CustomTestRunner obj3 = new CustomTestRunner();
+	CustomTestRunner obj;
+	CustomTestRunner obj2;
+	CustomTestRunner obj3;
 	
 	@Before
 	public void setup() throws Exception{
@@ -29,9 +29,10 @@ public class TestJUnit {
 		method = Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods();
 		ctrObj2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").newInstance();
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
-		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
-		obj2.initializeRunner("JUnit.tests.components.stub.TestCaseFail");
-		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue");
+		obj = new CustomTestRunner("JUnit.tests.components.stub.TestCasePass");
+		obj2 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseFail");
+		obj3 = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
+		
 	}
 
 	@Test
@@ -73,13 +74,8 @@ public class TestJUnit {
 	}
 	
 	@Test
-	public void testInitializeResultsFile() throws Exception{
-		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
-		assertTrue("This test should pass with every test case passing", obj.failed == 0);
-	}
-	
-	@Test
 	public void testModifyingStateFile() throws IOException{
+
 		assertTrue("file should be modified", obj3.saveIgnoredPassResults());
 	}
 	

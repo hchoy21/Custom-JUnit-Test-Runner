@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import JUnit.tests.components.stub.TestCasePass;
-
 
 public class CustomTestRunner {
 
@@ -35,20 +33,22 @@ public class CustomTestRunner {
 	ArrayList<Method> ignoreList;
 	Method[] methods;
 	Class<?> testFile;
+	String className;
 	Annotation annotation;
 	IgnorePassed ignore;
 	boolean isIgnorePassedPresent;
 	int passed = 0, failed = 0, numberOfTests = 0;
 
-	public CustomTestRunner(){	}
+	public CustomTestRunner(String className) throws Exception{
+		this.className = className;
+		testFile = Class.forName(className);
+		initializeRunner();
+	}
 
-	public boolean initializeRunner(String className) throws Exception{
-
-		testFile = TestCasePass.class;
-		isIgnorePassedPresent = false;
+	public boolean initializeRunner() throws Exception{
 
 		// get the list of methods from the test case
-		methods = Class.forName(className).getMethods();
+		methods = testFile.getMethods();
 		methodList = new ArrayList<Method>(Arrays.asList(methods));
 
 		// if tester has decided they want to randomize
@@ -65,7 +65,7 @@ public class CustomTestRunner {
 		// process method annotations
 		for(Method m : methodList){
 
-			Object obj = Class.forName(className).newInstance();
+			Object obj = testFile.newInstance();
 			boolean test;
 			// check each test annotation
 			if(m.isAnnotationPresent(CPULimitTest.class)){
@@ -102,9 +102,10 @@ public class CustomTestRunner {
 		else return false;
 	}
 
-	private void createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+	public File createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+		
+		File file = new File("Results." + testFile.getName() + ".txt", "UTF-8");
 		PrintWriter writerResult;
-
 		//creates a new test result file, or overwrites it if it exists
 		writerResult = new PrintWriter("Results." + testFile.getName() + ".txt", "UTF-8");
 
@@ -125,6 +126,8 @@ public class CustomTestRunner {
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();
 		writerResult.close();
+		
+		return file;
 	}
 
 	public boolean saveIgnoredPassResults() throws IOException{

@@ -4,7 +4,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -72,6 +74,15 @@ public class TestJUnit {
 
 		assertTrue("This test should pass with every test case passing", obj.failed == 0);
 	}
+	
+	@Test
+	public void testCreateResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+		
+		File file = obj.createResultsFile();
+		String filename = file.getName();
+		assertTrue("There should be a file created", filename.equals("Results.JUnit.tests.components.stub.TestCasePass.txt"));
+	}
+
 	
 	@Test
 	public void testModifyingStateFile() throws IOException{

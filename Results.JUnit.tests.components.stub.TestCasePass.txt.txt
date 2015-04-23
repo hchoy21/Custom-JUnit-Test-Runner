@@ -1,0 +1,10 @@
+TEST RESULTS FOR JUnit.tests.components.stub.TestCasePass
+
+
+--------------------------------------------------------
+
+
+		 tests passed: 0
+		 tests failed: 0
+
+--------------------------------------------------------

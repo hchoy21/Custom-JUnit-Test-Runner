@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
@@ -92,22 +91,22 @@ public class CustomTestRunner {
 		BufferedWriter bufWriterState = null;
 		//creates a file if it does not exist
 		File file = new File("State." + testFile.getName() + ".txt");
-		if(!file.exists()){
-			PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
-			writerState.close();
-		}
-		//creates a new state file for ignorepassed if it is used
-		if(ignore != null && ignore.reset()){
-			PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
-			writer.close();
-		}
-		if(isIgnorePassedPresent){
-			bufWriterState = new BufferedWriter(new FileWriter(file, true));
-			for(int i=0; i<ignoreList.size(); i++)
-				bufWriterState.write(ignoreList.get(i).getName() + "\n");
-			bufWriterState.flush();
-			bufWriterState.close();
-		}			
+//		if(!file.exists()){
+//			PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
+//			writerState.close();
+//		}
+//		//creates a new state file for ignorepassed if it is used
+//		if(ignore != null && ignore.reset()){
+//			PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
+//			writer.close();
+//		}
+//		if(isIgnorePassedPresent){
+//			bufWriterState = new BufferedWriter(new FileWriter(file, true));
+//			for(int i=0; i<ignoreList.size(); i++)
+//				bufWriterState.write(ignoreList.get(i).getName() + "\n");
+//			bufWriterState.flush();
+//			bufWriterState.close();
+//		}			
 		PrintWriter writerResult;
 
 		//creates a new test result file, or overwrites it if it exists
@@ -116,16 +115,16 @@ public class CustomTestRunner {
 		writerResult.println("TEST RESULTS FOR " + testFile.getName() + "\n\n");
 		writerResult.println("--------------------------------------------------------\n");
 		Iterator<Entry<String, Boolean>> it = testMethods.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, Boolean> pair = it.next();
-			if((Boolean) pair.getValue()){
-				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
-			}
-			else{
-				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
-			}
-			it.remove(); // avoids a ConcurrentModificationException
-		}
+//		while (it.hasNext()) {
+//			Entry<String, Boolean> pair = it.next();
+//			if((Boolean) pair.getValue()){
+//				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
+//			}
+//			else{
+//				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
+//			}
+//			it.remove(); // avoids a ConcurrentModificationException
+//		}
 		writerResult.println("\n\t\t tests passed: " + passed + "\n\t\t tests failed: " + failed);
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();

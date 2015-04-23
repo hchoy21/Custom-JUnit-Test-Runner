@@ -34,12 +34,12 @@ public class TestJUnit {
 		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
 	}
 
-	@Test
-	public void testInitializeRunnerResultCreated() throws Exception{
-	
-		File file = new File("State.JUnit.tests.components.stub.TestCasePass.txt");
-		assertTrue("The number of passed objects should be equal to the number of times the test has passed", file.exists());
-	}
+//	@Test
+//	public void testInitializeRunnerResultCreated() throws Exception{
+//	
+//		File file = new File("State.JUnit.tests.components.stub.TestCasePass.txt");
+//		assertTrue("The number of passed objects should be equal to the number of times the test has passed", file.exists());
+//	}
 	
 	@Test
 	public void testInitializeRunnerPassedNumber() throws Exception{

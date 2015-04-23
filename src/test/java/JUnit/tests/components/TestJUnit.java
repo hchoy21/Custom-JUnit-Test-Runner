@@ -20,6 +20,7 @@ public class TestJUnit {
 	Object ctrObj2;
 	Method[] method2;
 	CustomTestRunner obj = new CustomTestRunner();
+	CustomTestRunner obj2 = new CustomTestRunner();
 	
 	@Before
 	public void setup() throws Exception{
@@ -28,19 +29,7 @@ public class TestJUnit {
 		ctrObj2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").newInstance();
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
 		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
-	}
-
-	@Test
-	public void memoryRestrictionLimitTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		for(Method m : method){
-			// run tests on marked annotations
-			if(m.isAnnotationPresent(CPULimitTest.class)){
-
-				assertTrue("Passes the set memory limit", obj.runCPULimitTest(m, ctrObj));
-			}
-
-		}
-
+		obj2.initializeRunner("JUnit.tests.components.stub.TestCaseFail");
 	}
 
 	@Test
@@ -52,40 +41,49 @@ public class TestJUnit {
 	
 	@Test
 	public void testInitializeRunnerPassedNumber() throws Exception{
-	
-		System.out.println(obj.passed);
+
 		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.passed == obj.numberOfTests);
 	}
 	
 	@Test
 	public void testInitializeRunnerFailedNumber() throws Exception{
-	
-		System.out.println(obj.passed);
-		System.out.println(Class.forName("JUnit.tests.components.stub.TestCasePass").getMethods().length);
+
 		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.failed == 0);
 	}
 	
-	// TODO: JUnit testing on the CustomTestRunner
+
+	@Test
+	public void CPURestrictionLimitTestPassed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		for(Method m : method){
+			// run tests on marked annotations
+			if(m.isAnnotationPresent(CPULimitTest.class)){
+
+				assertTrue("Passes the set memory limit", obj.runCPULimitTest(m, ctrObj));
+			}
+
+		}
+
+	}
+	
 	@Test
 	public void CPULimitTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method2){
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(CPULimitTest.class)){
-				assertFalse("Fails the set memory Limit", obj.runCPULimitTest(m, ctrObj2));
+				assertFalse("Fails the set memory Limit", obj2.runCPULimitTest(m, ctrObj2));
 			}
 
 		}
 
 	}
 
-	// TODO: JUnit testing on the CustomTestRunner
 	@Test
 	public void ampleMemoryRunTestFailed() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		for(Method m : method2){
 			// run tests on marked annotations
 			if(m.isAnnotationPresent(AmpleMemory.class)){
 
-				assertFalse("There is not enough memory in the JVM to run this method", obj.runAmpleMemoryTest(m, ctrObj2));
+				assertFalse("There is suppose to be not enough memory in the JVM to run this method", obj2.runAmpleMemoryTest(m, ctrObj2));
 			}
 
 		}
@@ -148,7 +146,7 @@ public class TestJUnit {
 		for(Method m : method2){
 
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
-				assertFalse("Methods were not called as minimumly set by user", obj.runExpectedCallsTest(m, ctrObj2));
+				assertFalse("Methods were not called as minimumly set by user", obj2.runExpectedCallsTest(m, ctrObj2));
 			}
 		}
 	}

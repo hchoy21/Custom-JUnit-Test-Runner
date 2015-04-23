@@ -30,7 +30,7 @@ public class CustomTestRunner {
 	final OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 	.getOperatingSystemMXBean();
 	ArrayList<Method> methodList;
-	ArrayList<Method> ignoreList;
+	ArrayList<String> ignoreList;
 	Method[] methods;
 	Class<?> testFile;
 	String className;
@@ -58,7 +58,6 @@ public class CustomTestRunner {
 		if(testFile.isAnnotationPresent(IgnorePassed.class)){
 			isIgnorePassedPresent = true;
 			methodList = runIgnorePassedTest(testFile, methodList);
-			ignoreList = new ArrayList<Method>();
 			annotation = testFile.getAnnotation(IgnorePassed.class);
 			ignore = (IgnorePassed) annotation;
 		}
@@ -71,31 +70,25 @@ public class CustomTestRunner {
 			if(m.isAnnotationPresent(CPULimitTest.class)){
 				test = runCPULimitTest(m, obj);
 				testMethods.put(m.getName() + " CPULimitTest", test);
-				if(isIgnorePassedPresent)
-					ignoreList.add(m);
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(AmpleMemory.class)){
 				test = runAmpleMemoryTest(m, obj);
 				testMethods.put(m.getName() + " AmpleMemoryTest", test);
-				if(isIgnorePassedPresent)
-					ignoreList.add(m);
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
 				test = runExpectedCallsTest(m, obj);
 				testMethods.put(m.getName() + "ExpectedCallsTest", test);
-				if(isIgnorePassedPresent)
-					ignoreList.add(m);
 				numberOfTests++;
 			}
 		}	
-
+		
+		createResultsFile();
+		
 		if(isIgnorePassedPresent){
 			saveIgnoredPassResults();
 		}
-
-		createResultsFile();
 
 		if(failed == 0)
 			return true;
@@ -106,6 +99,7 @@ public class CustomTestRunner {
 
 		File file = new File("Results." + testFile.getName() + ".txt");
 		PrintWriter writerResult;
+		ignoreList = new ArrayList<String>();
 		//creates a new test result file, or overwrites it if it exists
 		writerResult = new PrintWriter("Results." + testFile.getName() + ".txt", "UTF-8");
 
@@ -116,6 +110,7 @@ public class CustomTestRunner {
 			Entry<String, Boolean> pair = it.next();
 			if((Boolean) pair.getValue()){
 				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
+				ignoreList.add(pair.getKey());
 			}
 			else{
 				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
@@ -131,22 +126,17 @@ public class CustomTestRunner {
 	}
 
 	public File saveIgnoredPassResults() throws IOException{
-
 		File file = new File("State." + testFile.getName() + ".txt");
 		if(isIgnorePassedPresent){
 			//creates a file if it does not exist
-			if(!file.exists()){
+			//creates a new state file for ignorepassed if it is used
+			if(!file.exists() || ignore.reset()){
 				PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
 				writerState.close();
 			}
-			//creates a new state file for ignorepassed if it is used
-			if(ignore.reset()){
-				PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
-				writer.close();
-			}
 			BufferedWriter bufWriterState = new BufferedWriter(new FileWriter(file, true));
 			for(int i=0; i<ignoreList.size(); i++)
-				bufWriterState.write(ignoreList.get(i).getName() + "\n");
+				bufWriterState.write(ignoreList.get(i) + "\n");
 			bufWriterState.flush();
 			bufWriterState.close();
 		}

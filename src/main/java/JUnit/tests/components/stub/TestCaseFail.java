@@ -3,10 +3,11 @@ package JUnit.tests.components.stub;
 import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.CPULimitTest;
 import JUnit.tests.components.ExpectedCalls;
+import JUnit.tests.components.IgnorePassed;
 
 
 //this testcase is for the junit
-//@IgnorePassed
+@IgnorePassed (reset = true)
 public class TestCaseFail {
 	
 	@ExpectedCalls (numOfMethodCalls=0)

@@ -41,7 +41,7 @@ public class TestJUnit {
 	public void testConstructor() throws Exception{
 
 		assertTrue("no ignore annotation is present, should be false", !obj.isIgnorePassedPresent);
-		assertFalse("no ignore annotation is present, ignore method should not run, hence no files", !obj.saveIgnoredPassResults().exists());
+		assertTrue("no ignore annotation is present, ignore method should not run, hence no files", !obj.saveIgnoredPassResults().exists());
 		assertTrue("String class name should not be null", obj.className!=null);
 		assertTrue("classes should not be null", obj.testFile!=null);
 	}
@@ -124,8 +124,8 @@ public class TestJUnit {
 
 	@Test
 	public void IgnorePassedTestResetTrue() throws NoSuchMethodException, SecurityException, ClassNotFoundException, IOException{
-		obj.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue"), new ArrayList<Method>());
-		File file = new File("State."+ Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue").getName() + ".txt");
+		obj.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseFail"), new ArrayList<Method>());
+		File file = new File("State."+ Class.forName("JUnit.tests.components.stub.TestCaseFail").getName() + ".txt");
 		assertTrue("Reset true should create a new file on the testcaseignorepassed stub", file.exists());
 	}
 

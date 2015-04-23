@@ -31,15 +31,22 @@ public class TestJUnit {
 		method2 = Class.forName("JUnit.tests.components.stub.TestCaseFail").getMethods();
 		obj.initializeRunner("JUnit.tests.components.stub.TestCasePass");
 		obj2.initializeRunner("JUnit.tests.components.stub.TestCaseFail");
-		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
+		obj3.initializeRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetTrue");
 	}
 
-//	@Test
-//	public void testInitializeRunnerResultCreated() throws Exception{
-//	
-//		File file = new File("State.JUnit.tests.components.stub.TestCasePass.txt");
-//		assertTrue("The number of passed objects should be equal to the number of times the test has passed", file.exists());
-//	}
+	@Test
+	public void testConstructor() throws Exception{
+
+		assertTrue("no ignore annotation is present, should be false", !obj.isIgnorePassedPresent);
+		assertFalse("no ignore annotation is present, ignore method should not run", obj.saveIgnoredPassResults());
+	}
+	
+	@Test
+	public void testInitializeRunnerResultCreated() throws Exception{
+	
+		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
+		assertTrue("The results file should be created", file.exists());
+	}
 	
 	@Test
 	public void testInitializeRunnerPassedNumber() throws Exception{
@@ -50,7 +57,7 @@ public class TestJUnit {
 	@Test
 	public void testInitializeRunnerFailedNumber() throws Exception{
 
-		assertTrue("The number of passed objects should be equal to the number of times the test has passed", obj.failed == 0);
+		assertTrue("The number of failed tests should be equal to 0", obj.failed == 0);
 	}
 	
 	@Test
@@ -69,6 +76,11 @@ public class TestJUnit {
 	public void testInitializeResultsFile() throws Exception{
 		File file = new File("Results.JUnit.tests.components.stub.TestCasePass.txt");
 		assertTrue("This test should pass with every test case passing", obj.failed == 0);
+	}
+	
+	@Test
+	public void testModifyingStateFile() throws IOException{
+		assertTrue("file should be modified", obj3.saveIgnoredPassResults());
 	}
 	
 	@Test

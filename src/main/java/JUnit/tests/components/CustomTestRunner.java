@@ -3,9 +3,12 @@ package JUnit.tests.components;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -29,10 +32,12 @@ public class CustomTestRunner {
 	final OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 	.getOperatingSystemMXBean();
 	ArrayList<Method> methodList;
+	ArrayList<Method> ignoreList;
+	Method[] methods;
 	Class<?> testFile;
 	Annotation annotation;
-	IgnorePassed ignore = null;
-	boolean isIgnorePassedPresent = false;
+	IgnorePassed ignore;
+	boolean isIgnorePassedPresent;
 	int passed = 0, failed = 0, numberOfTests = 0;
 
 	public CustomTestRunner(){	}
@@ -43,10 +48,8 @@ public class CustomTestRunner {
 		isIgnorePassedPresent = false;
 
 		// get the list of methods from the test case
-		Method[] methods = Class.forName(className).getMethods();
+		methods = Class.forName(className).getMethods();
 		methodList = new ArrayList<Method>(Arrays.asList(methods));
-		// instantiate arraylist for ignorelist
-		ArrayList<Method> ignoreList = null;
 
 		// if tester has decided they want to randomize
 		if(testFile.isAnnotationPresent(Randomize.class))
@@ -86,51 +89,65 @@ public class CustomTestRunner {
 					ignoreList.add(m);
 				numberOfTests++;
 			}
-		}
+		}	
 
-		BufferedWriter bufWriterState = null;
-		//creates a file if it does not exist
-		File file = new File("State." + testFile.getName() + ".txt");
-//		if(!file.exists()){
-//			PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
-//			writerState.close();
-//		}
-//		//creates a new state file for ignorepassed if it is used
-//		if(ignore != null && ignore.reset()){
-//			PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
-//			writer.close();
-//		}
-//		if(isIgnorePassedPresent){
-//			bufWriterState = new BufferedWriter(new FileWriter(file, true));
-//			for(int i=0; i<ignoreList.size(); i++)
-//				bufWriterState.write(ignoreList.get(i).getName() + "\n");
-//			bufWriterState.flush();
-//			bufWriterState.close();
-//		}			
+		if(isIgnorePassedPresent){
+			saveIgnoredPassResults();
+		}
+				
+		createResultsFile();
+		
+		if(failed == 0)
+			return true;
+		else return false;
+	}
+
+	private void createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
 		PrintWriter writerResult;
 
 		//creates a new test result file, or overwrites it if it exists
-		writerResult = new PrintWriter("Results." + testFile.getName() + ".txt" + ".txt", "UTF-8");
+		writerResult = new PrintWriter("Results." + testFile.getName() + ".txt", "UTF-8");
 
 		writerResult.println("TEST RESULTS FOR " + testFile.getName() + "\n\n");
 		writerResult.println("--------------------------------------------------------\n");
 		Iterator<Entry<String, Boolean>> it = testMethods.entrySet().iterator();
-//		while (it.hasNext()) {
-//			Entry<String, Boolean> pair = it.next();
-//			if((Boolean) pair.getValue()){
-//				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
-//			}
-//			else{
-//				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
-//			}
-//			it.remove(); // avoids a ConcurrentModificationException
-//		}
+		while (it.hasNext()) {
+			Entry<String, Boolean> pair = it.next();
+			if((Boolean) pair.getValue()){
+				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
+			}
+			else{
+				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
+			}
+			it.remove(); // avoids a ConcurrentModificationException
+		}
 		writerResult.println("\n\t\t tests passed: " + passed + "\n\t\t tests failed: " + failed);
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();
 		writerResult.close();
-		if(failed == 0)
+	}
+
+	public boolean saveIgnoredPassResults() throws IOException{
+
+		if(isIgnorePassedPresent){
+			//creates a file if it does not exist
+			File file = new File("State." + testFile.getName() + ".txt");
+			if(!file.exists()){
+				PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
+				writerState.close();
+			}
+			//creates a new state file for ignorepassed if it is used
+			if(ignore.reset()){
+				PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
+				writer.close();
+			}
+			BufferedWriter bufWriterState = new BufferedWriter(new FileWriter(file, true));
+			for(int i=0; i<ignoreList.size(); i++)
+				bufWriterState.write(ignoreList.get(i).getName() + "\n");
+			bufWriterState.flush();
+			bufWriterState.close();
 			return true;
+		}
 		else return false;
 	}
 

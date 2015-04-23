@@ -2,20 +2,12 @@ package JUnit.tests.components.stub;
 
 import JUnit.tests.components.AmpleMemory;
 import JUnit.tests.components.CPULimitTest;
-import JUnit.tests.components.ExpectedCalls;
+import JUnit.tests.components.IgnorePassed;
 
 
 //this testcase is for the junit
-//@IgnorePassed
+@IgnorePassed (reset = true)
 public class TestCaseFail {
-	
-	@ExpectedCalls (numOfMethodCalls=0)
-	public void testAddandPrintCalls(){
-		int a = 3;
-		int b = 5;
-		int total = a+b;
-		System.out.println("this should print 2 times");
-	}
 	
 	@AmpleMemory (threshHold=100)
 	@CPULimitTest (limit=0)

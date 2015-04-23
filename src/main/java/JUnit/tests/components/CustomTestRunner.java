@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import JUnit.tests.components.stub.TestCasePass;
+
 
 public class CustomTestRunner {
 
@@ -30,25 +32,23 @@ public class CustomTestRunner {
 	final OperatingSystemMXBean mbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
 	.getOperatingSystemMXBean();
 	ArrayList<Method> methodList;
-	ArrayList<Method> ignoreList;
+	ArrayList<String> ignoreList;
 	Method[] methods;
 	Class<?> testFile;
-	String className;
 	Annotation annotation;
 	IgnorePassed ignore;
 	boolean isIgnorePassedPresent;
 	int passed = 0, failed = 0, numberOfTests = 0;
 
-	public CustomTestRunner(String className) throws Exception{
-		this.className = className;
-		testFile = Class.forName(className);
-		initializeRunner();
-	}
+	public CustomTestRunner(){	}
 
-	public boolean initializeRunner() throws Exception{
+	public boolean initializeRunner(String className) throws Exception{
+
+		testFile = TestCasePass.class;
+		isIgnorePassedPresent = false;
 
 		// get the list of methods from the test case
-		methods = testFile.getMethods();
+		methods = Class.forName(className).getMethods();
 		methodList = new ArrayList<Method>(Arrays.asList(methods));
 
 		// if tester has decided they want to randomize
@@ -58,54 +58,61 @@ public class CustomTestRunner {
 		if(testFile.isAnnotationPresent(IgnorePassed.class)){
 			isIgnorePassedPresent = true;
 			methodList = runIgnorePassedTest(testFile, methodList);
-			ignoreList = new ArrayList<Method>();
 			annotation = testFile.getAnnotation(IgnorePassed.class);
 			ignore = (IgnorePassed) annotation;
 		}
 		// process method annotations
 		for(Method m : methodList){
 
-			Object obj = testFile.newInstance();
+			Object obj = Class.forName(className).newInstance();
 			boolean test;
 			// check each test annotation
 			if(m.isAnnotationPresent(CPULimitTest.class)){
 				test = runCPULimitTest(m, obj);
 				testMethods.put(m.getName() + " CPULimitTest", test);
-				if(isIgnorePassedPresent)
-					ignoreList.add(m);
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(AmpleMemory.class)){
 				test = runAmpleMemoryTest(m, obj);
 				testMethods.put(m.getName() + " AmpleMemoryTest", test);
-				if(isIgnorePassedPresent)
-					ignoreList.add(m);
 				numberOfTests++;
 			}
 			if(m.isAnnotationPresent(ExpectedCalls.class)){
 				test = runExpectedCallsTest(m, obj);
 				testMethods.put(m.getName() + "ExpectedCallsTest", test);
-				if(isIgnorePassedPresent)
-					ignoreList.add(m);
 				numberOfTests++;
 			}
 		}	
-
+		
+		createResultsFile();
+		
 		if(isIgnorePassedPresent){
 			saveIgnoredPassResults();
 		}
-				
-		createResultsFile();
-		
+
 		if(failed == 0)
 			return true;
 		else return false;
 	}
 
+<<<<<<< HEAD
 	public File createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+<<<<<<< HEAD
+
+=======
 		
+<<<<<<< HEAD
+>>>>>>> test create results file test
+=======
+>>>>>>> upstream/master
 		File file = new File("Results." + testFile.getName() + ".txt");
 		PrintWriter writerResult;
+		ignoreList = new ArrayList<String>();
+=======
+	private void createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
+		PrintWriter writerResult;
+
+>>>>>>> parent of f15cacf... improving junit testing v1.4
 		//creates a new test result file, or overwrites it if it exists
 		writerResult = new PrintWriter("Results." + testFile.getName() + ".txt", "UTF-8");
 
@@ -116,6 +123,7 @@ public class CustomTestRunner {
 			Entry<String, Boolean> pair = it.next();
 			if((Boolean) pair.getValue()){
 				writerResult.println("\t" + pair.getKey() + " = " + "passed.\n");
+				ignoreList.add(pair.getKey());
 			}
 			else{
 				writerResult.println("\t" + pair.getKey() + " = " + "failed.\n");
@@ -126,32 +134,29 @@ public class CustomTestRunner {
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();
 		writerResult.close();
-		
+<<<<<<< HEAD
+
 		return file;
+=======
+>>>>>>> parent of f15cacf... improving junit testing v1.4
 	}
 
-	public boolean saveIgnoredPassResults() throws IOException{
-
+	public File saveIgnoredPassResults() throws IOException{
+		File file = new File("State." + testFile.getName() + ".txt");
 		if(isIgnorePassedPresent){
 			//creates a file if it does not exist
-			File file = new File("State." + testFile.getName() + ".txt");
-			if(!file.exists()){
+			//creates a new state file for ignorepassed if it is used
+			if(!file.exists() || ignore.reset()){
 				PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
 				writerState.close();
 			}
-			//creates a new state file for ignorepassed if it is used
-			if(ignore.reset()){
-				PrintWriter writer = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
-				writer.close();
-			}
 			BufferedWriter bufWriterState = new BufferedWriter(new FileWriter(file, true));
 			for(int i=0; i<ignoreList.size(); i++)
-				bufWriterState.write(ignoreList.get(i).getName() + "\n");
+				bufWriterState.write(ignoreList.get(i) + "\n");
 			bufWriterState.flush();
 			bufWriterState.close();
-			return true;
 		}
-		else return false;
+		return file;	
 	}
 
 	@SuppressWarnings("restriction")
@@ -229,7 +234,7 @@ public class CustomTestRunner {
 	 * ignores test methods that passed in the last build
 	 * stored in a xml file. The xml file will reset if the boolean reset is set to true when the annotation is called.
 	 */
-	public static ArrayList<Method> runIgnorePassedTest(Class <?> c, ArrayList<Method> m) throws IOException, NoSuchMethodException, SecurityException{
+	public ArrayList<Method> runIgnorePassedTest(Class <?> c, ArrayList<Method> m) throws IOException, NoSuchMethodException, SecurityException{
 
 		//creates a file if it does not exist
 		File file = new File("State." + c.getName() + ".txt");
@@ -244,7 +249,6 @@ public class CustomTestRunner {
 		while((methodName = reader.readLine())!= null){
 			if(m.contains(c.getMethod(methodName))){
 				m.remove(c.getMethod(methodName));
-
 			}
 		}
 		reader.close();
@@ -253,8 +257,8 @@ public class CustomTestRunner {
 
 	}
 
-	public static ArrayList<Method> randomizeMethods(ArrayList<Method> m){
-		if(m != null && !m.isEmpty()){
+	public ArrayList<Method> randomizeMethods(ArrayList<Method> m){
+		if(!m.isEmpty()){
 			Random r = new Random();
 			int subset = r.nextInt(m.size());
 			Collections.shuffle(m);

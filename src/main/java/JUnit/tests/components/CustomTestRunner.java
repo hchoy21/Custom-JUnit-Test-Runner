@@ -94,16 +94,16 @@ public class CustomTestRunner {
 		if(isIgnorePassedPresent){
 			saveIgnoredPassResults();
 		}
-				
+
 		createResultsFile();
-		
+
 		if(failed == 0)
 			return true;
 		else return false;
 	}
 
 	public File createResultsFile() throws FileNotFoundException, UnsupportedEncodingException{
-		
+
 		File file = new File("Results." + testFile.getName() + ".txt");
 		PrintWriter writerResult;
 		//creates a new test result file, or overwrites it if it exists
@@ -126,15 +126,15 @@ public class CustomTestRunner {
 		writerResult.println("\n--------------------------------------------------------");
 		writerResult.flush();
 		writerResult.close();
-		
+
 		return file;
 	}
 
-	public boolean saveIgnoredPassResults() throws IOException{
+	public File saveIgnoredPassResults() throws IOException{
 
+		File file = new File("State." + testFile.getName() + ".txt");
 		if(isIgnorePassedPresent){
 			//creates a file if it does not exist
-			File file = new File("State." + testFile.getName() + ".txt");
 			if(!file.exists()){
 				PrintWriter writerState = new PrintWriter("State." + testFile.getName() + ".txt", "UTF-8");
 				writerState.close();
@@ -149,9 +149,8 @@ public class CustomTestRunner {
 				bufWriterState.write(ignoreList.get(i).getName() + "\n");
 			bufWriterState.flush();
 			bufWriterState.close();
-			return true;
 		}
-		else return false;
+		return file;	
 	}
 
 	@SuppressWarnings("restriction")

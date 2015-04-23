@@ -39,7 +39,9 @@ public class TestJUnit {
 	public void testConstructor() throws Exception{
 
 		assertTrue("no ignore annotation is present, should be false", !obj.isIgnorePassedPresent);
-		assertFalse("no ignore annotation is present, ignore method should not run", obj.saveIgnoredPassResults());
+		assertFalse("no ignore annotation is present, ignore method should not run, hence no files", !obj.saveIgnoredPassResults().exists());
+		assertTrue("String class name should not be null", obj.className!=null);
+		assertTrue("classes should not be null", obj.testFile!=null);
 	}
 	
 	@Test
@@ -83,7 +85,7 @@ public class TestJUnit {
 	@Test
 	public void testModifyingStateFile() throws IOException{
 
-		assertTrue("file should be modified", obj3.saveIgnoredPassResults());
+		assertTrue("file should be modified", obj3.saveIgnoredPassResults().exists());
 	}
 	
 	@Test
@@ -155,7 +157,14 @@ public class TestJUnit {
 	@Test
 	public void IgnorePassedTestReturnEmptyList() throws Exception{
 		CustomTestRunner test = new CustomTestRunner("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse");
-		ArrayList<Method> methods = test.runIgnorePassedTest(Class.forName("JUnit.tests.components.stub.TestCaseIgnorePassResetFalse"), new ArrayList<Method>());
+		ArrayList<Method> methods = test.runIgnorePassedTest(test.testFile, new ArrayList<Method>());
+		assertTrue("Empty list ", methods.isEmpty());
+	}
+	
+	@Test
+	public void IgnorePassedTestReturnFailedList() throws Exception{
+		CustomTestRunner test = new CustomTestRunner("JUnit.tests.components.stub.TestCaseFail");
+		ArrayList<Method> methods = test.runIgnorePassedTest(test.testFile, new ArrayList<Method>());
 		assertTrue("Reset true should create a new file on the testcaseignorepassed stub", methods.isEmpty());
 	}
 	
